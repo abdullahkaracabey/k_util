@@ -1,0 +1,8 @@
+{
+        "error": "Hata",
+        "passwordRequired": "Şifre gereklidir.",
+        "warningLogin": "Lütfen giriş yapın",
+        "warningUnknownError": "Bilnmeyen bir hata oluştu",
+        "ok": "Tamam"
+
+}

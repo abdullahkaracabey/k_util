@@ -1,0 +1,7 @@
+{
+    "error":"Error",
+    "passwordRequired": "Password is required",
+    "warningLogin": "Please login",
+    "warningUnknownError": "Sorry, there’s been a problem",
+    "ok": "OK"
+}
