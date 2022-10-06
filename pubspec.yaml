@@ -31,7 +31,8 @@ dependencies:
   badges: ^2.0.3
   uuid: ^3.0.6
   animated_state_widget:
-    path: "/Users/abdullahkaracabey/Works/Personal/Flutter/animated-state-widget"
+    git:
+      url: https://github.com/abdullahkaracabey/animated-state-widget.git
 
 dev_dependencies:
   flutter_test:
