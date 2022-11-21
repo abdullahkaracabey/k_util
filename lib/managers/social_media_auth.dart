@@ -11,7 +11,23 @@ mixin SocialMediaAuth<T extends BaseModel> on BaseAuthManager<T> {
             await (authApi as BaseSocialMediaAuthApi).loginWithApple(params);
         _handleAfterLogin(result);
       } else {
-        throw const  AppException(
+        throw const AppException(
+            code: AppException.kDeveloperLog,
+            message: "authApi should be BaseSocialMediaAuthApi");
+      }
+    });
+  }
+
+  Future<void> loginWithFaceBook(String token) async {
+    callRequest(() async {
+
+      
+      if (authApi is BaseSocialMediaAuthApi) {
+        var result =
+            await (authApi as BaseSocialMediaAuthApi).loginWithFacebook(token);
+        _handleAfterLogin(result);
+      } else {
+        throw const AppException(
             code: AppException.kDeveloperLog,
             message: "authApi should be BaseSocialMediaAuthApi");
       }

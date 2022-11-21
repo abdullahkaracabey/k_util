@@ -35,6 +35,9 @@ abstract class BaseModel extends ChangeNotifier {
 
     if (id != null) result["id"] = id;
 
+    result["createdAt"] = createdAt ?? DateTime.now();
+    result["updatedAt"] = DateTime.now();
+
     return result;
   }
 }

@@ -5,7 +5,7 @@ import 'package:k_util/models/base_model.dart';
 
 mixin PasswordAuth<T extends BaseModel> on BaseAuthManager<T> {
   Future<void> signInPassword(String username, String password) async {
-    await callRequest(()  =>  _signInPassword(username, password));
+    await callRequest(() => _signInPassword(username, password));
   }
 
   Future<void> _signInPassword(String username, String password) async {
@@ -34,4 +34,6 @@ mixin PasswordAuth<T extends BaseModel> on BaseAuthManager<T> {
     user = createUser(result);
     appManager.prepareAppAfterLogin();
   }
+
+  
 }

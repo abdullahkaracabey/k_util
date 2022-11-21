@@ -19,15 +19,14 @@ abstract class BaseAppManager extends ChangeNotifier {
   bool _isLoginComplete = false;
 
   bool get isInitialized => _initialized;
-  bool get isLoggedIn => _isLoginComplete;
-  bool get shouldMainScreenVisible => _isLoginComplete;
+  bool get isLoginComplete => _isLoginComplete;
 
   BaseFirebaseNotificationManager get firebaseNotificationManager;
   BaseAuthManager get authManager;
 
   Future<String> appVersion();
 
-  Future<void> initialize() async {
+  Future<void> initialize({dynamic options}) async {
     await firebaseNotificationManager.initializeFireBaseMessaging(
         onBackgroundMessage: _firebaseMessagingBackgroundHandler);
     await authManager.prepare();

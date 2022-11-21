@@ -17,22 +17,37 @@ dependencies:
   
   provider: ^6.0.3
   intl: 
-  firebase_core: ^1.14.0
-  firebase_messaging: ^11.2.12
-  # firebase_storage: ^10.0.6
-  firebase_crashlytics: ^2.6.1
+  firebase_core: ^2.3.0
+  firebase_messaging: ^14.1.1
+  firebase_analytics: ^10.0.6
+  firebase_crashlytics: ^3.0.6
+  # flutter_local_notifications: ^12.0.3+1
   flutter_local_notifications: ^9.4.0
-  connectivity_plus: ^2.3.6+1
-  package_info_plus: ^1.4.3+1
+  connectivity_plus: ^3.0.2
+  package_info_plus: ^3.0.2
   store_redirect: ^2.0.1
   secure_shared_preferences: ^0.0.4
   keyboard_dismisser: ^3.0.0
   avoid_keyboard: ^0.3.0
   badges: ^2.0.3
   uuid: ^3.0.6
+  transparent_image: ^2.0.0
+  sliver_tools: ^0.2.8
+  url_launcher: ^6.1.5
+  cached_network_image: ^3.2.1
   animated_state_widget:
-    git:
-      url: https://github.com/abdullahkaracabey/animated-state-widget.git
+    path: "/Users/abdullahkaracabey/Works/Personal/Flutter/animated-state-widget"
+  enum_to_string: ^2.0.1
+  image_picker: ^0.8.6
+  webview_flutter: ^3.0.4
+  dots_indicator: ^2.1.0
+  path_provider: ^2.0.11
+  app_settings: ^4.1.8
+  flutter_multi_formatter: ^2.9.4
+  
+  
+    # git:
+    #   url: https://github.com/abdullahkaracabey/animated-state-widget.git
 
 dev_dependencies:
   flutter_test:

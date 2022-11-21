@@ -8,6 +8,8 @@ typedef OnError = void Function(AppException error);
 
 enum ErrorShowType { snack, modal }
 
+typedef RequestCall<T> = Future<T> Function();
+
 class BaseViewState<W extends StatefulWidget> extends State<W> {
   WidgetState currentState = WidgetState.init;
   ColorScheme get colorScheme => Theme.of(context).colorScheme;
@@ -22,6 +24,31 @@ class BaseViewState<W extends StatefulWidget> extends State<W> {
 
   Widget getLoadingView() {
     return const CircularProgressIndicator();
+  }
+
+  void hideKeyboard(BuildContext context) {
+    FocusScopeNode currentFocus = FocusScope.of(context);
+    if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
+      FocusManager.instance.primaryFocus?.unfocus();
+    }
+  }
+
+  Future<T?> callRequest<T>(RequestCall<T> function,
+      {bool shouldChangeWidgetState = true, Function? onThrowError}) async {
+    try {
+      if (shouldChangeWidgetState) {
+        actionState(WidgetState.onAction);
+      }
+      return await function();
+    } catch (e) {
+      debugPrint(e.toString());
+      onError(e);
+      rethrow;
+    } finally {
+      if (shouldChangeWidgetState) {
+        actionState(WidgetState.init);
+      }
+    }
   }
 
   // onChangeLanguage() {

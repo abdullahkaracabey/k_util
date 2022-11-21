@@ -8,10 +8,14 @@ abstract class BaseAuthManager<T extends BaseModel> extends BaseManager {
   BaseAppManager get appManager;
   BasePreferencesManager<T> get preferencesManager;
   BaseAuthApi get authApi;
+  String? get authToken;
   T? _user;
 
   T? get user => _user;
-  set user(T? u) => _user = u;
+  set user(T? u) {
+    _user = u;
+    notifyListeners();
+  }
 
   T createUser(Map<String, dynamic> data);
   @override
@@ -20,10 +24,14 @@ abstract class BaseAuthManager<T extends BaseModel> extends BaseManager {
   }
 
   Future<void> logout() async {
-    await authApi.logout();
-    await preferencesManager.clear();
+    authApi.logout();
+    preferencesManager.clear();
     appManager.onLogout();
+    _user = null;
+    notifyListeners();
   }
+
+  Future<void> deleteAccount() async {}
 
   Future<void> updateMessagingToken(String token) async {
     var currentToken = await preferencesManager.getMessagingToken();
