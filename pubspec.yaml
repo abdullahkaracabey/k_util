@@ -16,6 +16,7 @@ dependencies:
     sdk: flutter
   
   provider: ^6.0.3
+  get_it: ^7.2.0
   intl: 
   firebase_core: ^2.3.0
   firebase_messaging: ^14.1.1
@@ -44,6 +45,7 @@ dependencies:
   path_provider: ^2.0.11
   app_settings: ^4.1.8
   flutter_multi_formatter: ^2.9.4
+  get: ^4.6.5
   
   
     # git:

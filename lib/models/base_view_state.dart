@@ -51,6 +51,10 @@ class BaseViewState<W extends StatefulWidget> extends State<W> {
     }
   }
 
+  onUpdate() {
+    setState(() {});
+  }
+
   // onChangeLanguage() {
   //   final textTheme = Theme.of(context).textTheme;
 

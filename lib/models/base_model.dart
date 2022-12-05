@@ -20,10 +20,24 @@ abstract class BaseModel extends ChangeNotifier {
     }
 
     var dateC = data[kCreatedAt];
-    createdAt = dateC?.toDate();
+
+    if (dateC != null) {
+      if (dateC is DateTime) {
+        createdAt = dateC;
+      } else {
+        createdAt = dateC?.toDate();
+      }
+    }
 
     var dateU = data[kUpdatedAt];
-    updatedAt = dateU?.toDate() ?? DateTime.now();
+
+    if (dateU != null) {
+      if (dateU is DateTime) {
+        updatedAt = dateU;
+      } else {
+        updatedAt = dateU?.toDate();
+      }
+    }
   }
 
   bool isEqual(BaseModel model) {
