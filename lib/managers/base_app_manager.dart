@@ -16,8 +16,14 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 abstract class BaseAppManager extends ChangeNotifier {
   bool _initialized = false;
+  bool _isSplashScreenSeen = false;
   bool _isLoginComplete = false;
 
+  bool get isSplashScreenSeen => _isSplashScreenSeen;
+  set isSplashScreenSeen(bool isSeen) {
+    _isSplashScreenSeen= isSeen;
+    notifyListeners();
+  }
   bool get isInitialized => _initialized;
   bool get isLoginComplete => _isLoginComplete;
 
