@@ -14,6 +14,7 @@ class BaseViewState<W extends StatefulWidget> extends State<W> {
   WidgetState currentState = WidgetState.init;
   ColorScheme get colorScheme => Theme.of(context).colorScheme;
   TextTheme get textTheme => Theme.of(context).textTheme;
+  BuildContext? _dialogContext;
 
   BaseViewState();
 
@@ -34,12 +35,21 @@ class BaseViewState<W extends StatefulWidget> extends State<W> {
   }
 
   Future<T?> callRequest<T>(RequestCall<T> function,
-      {bool shouldChangeWidgetState = true, Function? onThrowError}) async {
+      {bool shouldChangeWidgetState = true,
+      Function? onThrowError,
+      String? alertText}) async {
     try {
       if (shouldChangeWidgetState) {
-        actionState(WidgetState.onAction);
+        if (alertText != null) {
+          showLoaderDialog(context, text: alertText);
+        } else {
+          actionState(WidgetState.onAction);
+        }
       }
-      return await function();
+      var result = await function();
+
+      hideDialog();
+      return result;
     } catch (e) {
       debugPrint(e.toString());
       onError(e);
@@ -113,7 +123,11 @@ class BaseViewState<W extends StatefulWidget> extends State<W> {
           message = localization.warningUnknownError;
           break;
         case AppException.kUnAuthorized:
-          message = localization.warningLogin;
+          if (error.message != null) {
+            message = error.message!;
+          } else {
+            message = localization.warningLogin;
+          }
           break;
         default:
           message = error.message ?? localization.warningUnknownError;
@@ -150,13 +164,16 @@ class BaseViewState<W extends StatefulWidget> extends State<W> {
       content: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: [
           const CircularProgressIndicator(
               // backgroundColor: AppThemeData.primaryColor,
               ),
           text != null
-              ? Container(
-                  margin: const EdgeInsets.only(left: 7), child: Text(text))
+              ? Expanded(
+                  child: Padding(
+                      padding: const EdgeInsets.only(left: 7),
+                      child: Text(text)))
               : const SizedBox(
                   width: 1,
                   height: 1,
@@ -168,13 +185,21 @@ class BaseViewState<W extends StatefulWidget> extends State<W> {
       barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
+        _dialogContext = context;
         return alert;
       },
     );
   }
 
+  hideDialog() {
+    if (_dialogContext != null) {
+      Navigator.pop(_dialogContext!);
+      _dialogContext = null;
+    }
+  }
+
   @override
-  void actionState(WidgetState state, {String? text}) {
+  void actionState(WidgetState state) {
     // if (isActive) {
     //   showLoaderDialog(context, text: text);
     // } else {
