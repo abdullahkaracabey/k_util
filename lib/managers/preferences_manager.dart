@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:k_util/models/base_model.dart';
 import 'package:secure_shared_preferences/secure_shared_preferences.dart';
@@ -24,7 +26,7 @@ abstract class BasePreferencesManager<T extends BaseModel> {
   Future<void> setUser(T user) async {
     try {
       var pref = await getPreferences();
-      await pref.putMap(_kUser, user.toJson(), isEncrypted: true);
+      await pref.putMap(_kUser, user.toJson(), isEncrypted: Platform.isAndroid);
     } catch (e) {
       debugPrint(e.toString());
     }
@@ -33,7 +35,8 @@ abstract class BasePreferencesManager<T extends BaseModel> {
   Future<T?> getUser() async {
     var pref = await getPreferences();
     try {
-      var userAsString = await pref.getMap(_kUser, isEncrypted: true);
+      var userAsString =
+          await pref.getMap(_kUser, isEncrypted: Platform.isAndroid);
 
       if (userAsString != null && userAsString.isNotEmpty) {
         var map = userAsString as Map<String, dynamic>;
