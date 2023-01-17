@@ -25,6 +25,7 @@ mixin PasswordAuth<T extends BaseModel> on BaseAuthManager<T> {
       var result = await (authApi as BasePasswordAuthApi)
           .signUpWithPassword(username, password);
       _handleAfterLogin(result);
+      return;
     }
     throw const AppException(
         message: "authApi should be BaseSocialMediaAuthApi");
@@ -34,6 +35,4 @@ mixin PasswordAuth<T extends BaseModel> on BaseAuthManager<T> {
     user = createUser(result);
     appManager.prepareAppAfterLogin();
   }
-
-  
 }
