@@ -35,7 +35,9 @@ dependencies:
   url_launcher: ^6.1.8
   cached_network_image: ^3.2.1
   animated_state_widget:
-    path: "/Users/abdullahkaracabey/Works/Personal/Flutter/animated-state-widget"
+    git:
+      url: https://github.com/abdullahkaracabey/animated-state-widget.git
+
   enum_to_string: ^2.0.1
   image_picker: ^0.8.6
   webview_flutter: ^3.0.4
@@ -46,9 +48,7 @@ dependencies:
   get: ^4.6.5
   
   
-    # git:
-    #   url: https://github.com/abdullahkaracabey/animated-state-widget.git
-
+   
 dev_dependencies:
   flutter_test:
     sdk: flutter
