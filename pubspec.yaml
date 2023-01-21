@@ -32,7 +32,7 @@ dependencies:
   uuid: ^3.0.6
   transparent_image: ^2.0.0
   sliver_tools: ^0.2.8
-  url_launcher: ^6.1.5
+  url_launcher: ^6.1.8
   cached_network_image: ^3.2.1
   animated_state_widget:
     path: "/Users/abdullahkaracabey/Works/Personal/Flutter/animated-state-widget"
