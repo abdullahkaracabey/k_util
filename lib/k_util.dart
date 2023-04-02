@@ -32,3 +32,4 @@ export 'package:path_provider/path_provider.dart';
 export 'package:url_launcher/url_launcher.dart';
 export 'package:app_settings/app_settings.dart';
 export 'package:get_it/get_it.dart';
+export 'package:app_version_update/app_version_update.dart';
