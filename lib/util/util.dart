@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 export 'snack.dart';
 
-Future<T?> pushScreen<T>(BuildContext context, Widget screen) {
-  return Navigator.of(context).push<T>(PageRouteBuilder(
+Future<T?> pushScreen<T>(BuildContext context, Widget screen, {bool rootNavigator = false}) {
+  return Navigator.of(context, rootNavigator: rootNavigator).push<T>(PageRouteBuilder(
     pageBuilder: (
       BuildContext context,
       Animation<double> animation,
