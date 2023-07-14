@@ -159,6 +159,21 @@ class BaseViewState<W extends StatefulWidget> extends State<W> {
             ));
   }
 
+  showInfoDialog(String title, String message) {
+    final localization = KUtilLocalizations.of(context)!;
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text(title),
+              content: Text(message),
+              actions: [
+                ElevatedButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: Text(localization.ok))
+              ],
+            ));
+  }
+
   showLoaderDialog(BuildContext context, {String? text}) {
     AlertDialog alert = AlertDialog(
       content: Row(
