@@ -14,7 +14,7 @@ abstract class BaseModel extends ChangeNotifier {
     var modelId = data[kId];
 
     if (modelId is int) {
-      id = "${modelId}";
+      id = "$modelId";
     } else {
       id = modelId;
     }

@@ -57,8 +57,8 @@ abstract class BasePreferencesManager<T extends BaseModel> {
     return await _getString(_kLanguageCode);
   }
 
-  Future<void> setMessagingToken(String type) async {
-    await _putString(_kMessagingToken, type);
+  Future<void> setMessagingToken(String value) async {
+    await _putString(_kMessagingToken, value);
   }
 
   Future<String?> getMessagingToken() async {

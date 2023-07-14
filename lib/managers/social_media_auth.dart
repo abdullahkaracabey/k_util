@@ -24,9 +24,7 @@ mixin SocialMediaAuth<T extends BaseModel> on BaseAuthManager<T> {
         var result =
             await (authApi as BaseSocialMediaAuthApi).loginWithFacebook(token);
 
-        if (result != null) {
-          _handleAfterLogin(result);
-        }
+        _handleAfterLogin(result);
       } else {
         throw const AppException(
             code: AppException.kDeveloperLog,

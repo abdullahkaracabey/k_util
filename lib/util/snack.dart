@@ -5,10 +5,10 @@ class Snack {
       {Duration? duration}) {
     var textTheme = Theme.of(context).textTheme;
     SnackBar snackBar = SnackBar(
-        duration: duration ?? Duration(seconds: 4),
+        duration: duration ?? const Duration(seconds: 4),
         content: Text(
           text,
-          style: textTheme.bodyText1!.copyWith(
+          style: textTheme.bodyLarge!.copyWith(
               fontWeight: FontWeight.w800, fontSize: 14.0, color: Colors.white),
         ));
 

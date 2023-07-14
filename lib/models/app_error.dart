@@ -1,5 +1,6 @@
 class AppException implements Exception {
   static const int kNotConnected = 1;
+  static const int kRemoteAddressNotReached = 2;
   static const int kNotCorrect = 100;
   static const int kPrivacyPolicy = 101;
   static const int kUserPolicy = 102;

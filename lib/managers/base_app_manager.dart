@@ -21,24 +21,25 @@ abstract class BaseAppManager extends ChangeNotifier {
 
   bool get isSplashScreenSeen => _isSplashScreenSeen;
   set isSplashScreenSeen(bool isSeen) {
-    _isSplashScreenSeen= isSeen;
+    _isSplashScreenSeen = isSeen;
     notifyListeners();
   }
+
   bool get isInitialized => _initialized;
   bool get isLoginComplete => _isLoginComplete;
 
   BaseFirebaseNotificationManager get firebaseNotificationManager;
-  BaseAuthManager get authManager;
+  BaseAuthManager? get authManager;
 
   Future<String> appVersion();
 
   Future<void> initialize({dynamic options}) async {
     await firebaseNotificationManager.initializeFireBaseMessaging(
         onBackgroundMessage: _firebaseMessagingBackgroundHandler);
-    await authManager.prepare();
+    await authManager?.prepare();
     _initialized = true;
 
-    if (authManager.user != null) {
+    if (authManager?.user != null) {
       _isLoginComplete = true;
     }
   }
