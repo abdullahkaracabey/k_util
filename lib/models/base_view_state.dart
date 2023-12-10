@@ -10,7 +10,7 @@ enum ErrorShowType { snack, modal }
 
 typedef RequestCall<T> = Future<T> Function();
 
-class BaseViewState<W extends StatefulWidget> extends State<W> {
+class BaseViewState< W extends StatefulWidget> extends State<W> {
   WidgetState currentState = WidgetState.init;
   ColorScheme get colorScheme => Theme.of(context).colorScheme;
   TextTheme get textTheme => Theme.of(context).textTheme;
@@ -174,7 +174,7 @@ class BaseViewState<W extends StatefulWidget> extends State<W> {
             ));
   }
 
-  showLoaderDialog(BuildContext context, {String? text}) {
+  Future showLoaderDialog(BuildContext context, {String? text}) {
     AlertDialog alert = AlertDialog(
       content: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -196,7 +196,7 @@ class BaseViewState<W extends StatefulWidget> extends State<W> {
         ],
       ),
     );
-    showDialog(
+    return showDialog(
       barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {

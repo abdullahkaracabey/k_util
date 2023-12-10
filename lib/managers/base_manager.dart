@@ -5,7 +5,7 @@ import 'package:k_util/models/app_error.dart';
 typedef RequestCall<T> = Future<T> Function();
 
 abstract class BaseManager extends ChangeNotifier {
-  BaseAuthManager get authManager;
+  BaseAuthManager? get authManager;
 
   Future<void> prepare();
 
@@ -15,7 +15,7 @@ abstract class BaseManager extends ChangeNotifier {
     } catch (e) {
       if (e is AppException) {
         if (e.code == AppException.kUnAuthorized) {
-          authManager.logout();
+          authManager?.logout();
         }
       }
 
