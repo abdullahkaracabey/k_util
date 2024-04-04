@@ -13,27 +13,28 @@ abstract class BasePreferencesManager<T extends BaseModel> {
 
   T createUser(Map<String, dynamic> data);
 
-  Future<SecureSharedPref> getPreferences() async {
+  Future<SecureSharedPref> preferences() async {
     _pref ??= await SecureSharedPref.getInstance();
     return _pref!;
   }
 
   Future<void> clear() async {
-    var pref = await getPreferences();
+    var pref = await preferences();
     await pref.clearAll();
   }
 
   Future<void> setUser(T user) async {
     try {
-      var pref = await getPreferences();
-      await pref.putMap(_kUser, user.toJson(), isEncrypted: Platform.isAndroid);
+      var pref = await preferences();
+      await pref.putMap(_kUser, user.toJson(ignoreDates: true),
+          isEncrypted: Platform.isAndroid);
     } catch (e) {
       debugPrint(e.toString());
     }
   }
 
   Future<T?> getUser() async {
-    var pref = await getPreferences();
+    var pref = await preferences();
     try {
       var userAsString =
           await pref.getMap(_kUser, isEncrypted: Platform.isAndroid);
@@ -71,7 +72,7 @@ abstract class BasePreferencesManager<T extends BaseModel> {
   }
 
   _getString(name) async {
-    var pref = await getPreferences();
+    var pref = await preferences();
     try {
       return await pref.getString(name);
     } catch (e) {

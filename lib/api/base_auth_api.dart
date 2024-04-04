@@ -1,4 +1,3 @@
-
 abstract class BaseAuthApi {
-  logout();
+  Future<void> logout();
 }

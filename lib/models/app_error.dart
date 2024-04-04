@@ -7,6 +7,7 @@ class AppException implements Exception {
   static const int kUnPermitted = 103;
   static const int kUnknownError = 500;
   static const int kUnAuthorized = 401;
+  static const int kNotFound = 404;
   static const int kDeveloperLog = 900;
   static const kWarningPhoneNumberWithoutZero = 903;
   static const kWarningPhoneNotTrue = 905;

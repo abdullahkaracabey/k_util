@@ -1,4 +1,5 @@
 abstract class BasePasswordAuthApi {
+  Future<bool> isUserExists(String username);
   Future<Map<String, dynamic>> signInWithPassword(
       String username, String password);
   Future<Map<String, dynamic>> signUpWithPassword(

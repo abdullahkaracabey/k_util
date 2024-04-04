@@ -1,34 +1,48 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:k_util/api/base_auth_api.dart';
 import 'package:k_util/managers/base_app_manager.dart';
 import 'package:k_util/managers/base_manager.dart';
 import 'package:k_util/managers/preferences_manager.dart';
 import 'package:k_util/models/models.dart';
 
-abstract class BaseAuthManager<T extends BaseModel> extends BaseManager {
-  BaseAppManager get appManager;
-  BasePreferencesManager<T> get preferencesManager;
+abstract class BaseAuthState<U extends BaseModel> {
+  final U? user;
+
+  BaseAuthState({this.user});
+
+  BaseAuthState cloneWithUser(U? u);
+  BaseAuthState cleanState();
+}
+
+abstract class BaseAuthManager<U extends BaseModel, S extends BaseAuthState>
+    extends BaseManager<S> {
+  BaseAppManager? get appManager;
+  BasePreferencesManager<U> get preferencesManager;
   BaseAuthApi get authApi;
+
+  U? get user {
+    debugPrint("user from base_auth_manager.dart get user method");
+    return state.value?.user as U?;
+  }
+
   String? get authToken;
-  T? _user;
 
-  T? get user => _user;
-  set user(T? u) {
-    _user = u;
-    notifyListeners();
+  set user(U? u) {
+    state = AsyncValue.data(state.value?.cloneWithUser(u) as S);
+
+    // update((state) {
+    //   return state.cloneWithUser(u) as S;
+    // });
   }
 
-  T createUser(Map<String, dynamic> data);
-  @override
-  Future<void> prepare() async {
-    _user = await preferencesManager.getUser();
-  }
+  U createUser(Map<String, dynamic> data);
 
   Future<void> logout() async {
     authApi.logout();
     preferencesManager.clear();
-    appManager.onLogout();
-    _user = null;
-    notifyListeners();
+
+    await update((state) => state.cleanState() as S);
   }
 
   Future<void> deleteAccount() async {}

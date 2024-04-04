@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 
+enum ModelState { active, archived, deleted }
+
 abstract class BaseModel extends ChangeNotifier {
   static String kId = "id";
   static String kCreatedAt = "createdAt";
@@ -7,8 +9,9 @@ abstract class BaseModel extends ChangeNotifier {
   String? id;
   DateTime? createdAt;
   DateTime? updatedAt;
+  ModelState? state;
 
-  BaseModel({this.id});
+  BaseModel({this.id, this.createdAt, this.updatedAt, this.state});
 
   BaseModel.fromJson(Map<String, dynamic> data) {
     var modelId = data[kId];
@@ -38,19 +41,23 @@ abstract class BaseModel extends ChangeNotifier {
         updatedAt = dateU?.toDate();
       }
     }
+
+    state = ModelState.values.byName(data["state"] ?? ModelState.active.name);
   }
 
   bool isEqual(BaseModel model) {
     return id == model.id;
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson({bool ignoreDates = false}) {
     var result = <String, dynamic>{};
 
     if (id != null) result["id"] = id;
 
-    result["createdAt"] = createdAt ?? DateTime.now();
-    result["updatedAt"] = DateTime.now();
+    if (!ignoreDates) {
+      result["createdAt"] = createdAt ?? DateTime.now();
+      result["updatedAt"] = DateTime.now();
+    }
 
     return result;
   }

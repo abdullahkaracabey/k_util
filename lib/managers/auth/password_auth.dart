@@ -3,9 +3,25 @@ import 'package:k_util/managers/base_auth_manager.dart';
 import 'package:k_util/models/app_error.dart';
 import 'package:k_util/models/base_model.dart';
 
-mixin PasswordAuth<T extends BaseModel> on BaseAuthManager<T> {
+mixin PasswordAuth<U extends BaseModel, S extends BaseAuthState>
+    on BaseAuthManager<U, S> {
+  Future<bool> isUserExists(String username) async {
+    return callRequest(() => _isUserExists(username));
+  }
+
   Future<void> signInPassword(String username, String password) async {
     await callRequest(() => _signInPassword(username, password));
+  }
+
+  Future<bool> _isUserExists(String username) async {
+    if (authApi is BasePasswordAuthApi) {
+      return (authApi as BasePasswordAuthApi).isUserExists(
+        username,
+      );
+    }
+    throw const AppException(
+        code: AppException.kDeveloperLog,
+        message: "authApi should be BasePasswordAuthApi");
   }
 
   Future<void> _signInPassword(String username, String password) async {
@@ -17,7 +33,7 @@ mixin PasswordAuth<T extends BaseModel> on BaseAuthManager<T> {
     }
     throw const AppException(
         code: AppException.kDeveloperLog,
-        message: "authApi should be BaseSocialMediaAuthApi");
+        message: "authApi should be BasePasswordAuthApi");
   }
 
   Future<void> signUpPassword(String username, String password) async {
@@ -27,12 +43,13 @@ mixin PasswordAuth<T extends BaseModel> on BaseAuthManager<T> {
       _handleAfterLogin(result);
       return;
     }
-    throw const AppException(
-        message: "authApi should be BaseSocialMediaAuthApi");
+    throw const AppException(message: "authApi should be BasePasswordAuthApi");
   }
 
   void _handleAfterLogin(Map<String, dynamic> result) {
     user = createUser(result);
-    appManager.prepareAppAfterLogin();
+    appManager?.prepareAppAfterLogin();
+
+    
   }
 }

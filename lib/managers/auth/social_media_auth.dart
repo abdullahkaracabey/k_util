@@ -3,7 +3,8 @@ import 'package:k_util/managers/base_auth_manager.dart';
 import 'package:k_util/models/app_error.dart';
 import 'package:k_util/models/base_model.dart';
 
-mixin SocialMediaAuth<T extends BaseModel> on BaseAuthManager<T> {
+mixin SocialMediaAuth<T extends BaseModel, S extends BaseAuthState>
+    on BaseAuthManager<T, S> {
   Future<void> loginWithApple(Map<String, String> params) async {
     callRequest(() async {
       if (authApi is BaseSocialMediaAuthApi) {
@@ -35,6 +36,7 @@ mixin SocialMediaAuth<T extends BaseModel> on BaseAuthManager<T> {
 
   void _handleAfterLogin(Map<String, dynamic> result) {
     user = createUser(result);
-    appManager.prepareAppAfterLogin();
+
+    appManager?.prepareAppAfterLogin();
   }
 }

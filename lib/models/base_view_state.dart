@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:k_util/l10n/k_util_localizations.dart';
+import 'package:k_util/managers/base_manager.dart';
 import 'package:k_util/models/app_error.dart';
 import 'package:k_util/models/enums.dart';
 import 'package:k_util/util/snack.dart';
@@ -8,20 +10,13 @@ typedef OnError = void Function(AppException error);
 
 enum ErrorShowType { snack, modal }
 
-typedef RequestCall<T> = Future<T> Function();
-
-class BaseViewState< W extends StatefulWidget> extends State<W> {
+class BaseViewState<W extends ConsumerStatefulWidget> extends ConsumerState<W> {
   WidgetState currentState = WidgetState.init;
   ColorScheme get colorScheme => Theme.of(context).colorScheme;
   TextTheme get textTheme => Theme.of(context).textTheme;
   BuildContext? _dialogContext;
 
   BaseViewState();
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   Widget getLoadingView() {
     return const CircularProgressIndicator();
@@ -100,7 +95,6 @@ class BaseViewState< W extends StatefulWidget> extends State<W> {
     throw UnimplementedError();
   }
 
-  @override
   void onError(dynamic rawError,
       {ErrorShowType showType = ErrorShowType.snack,
       shouldClearActionState = true}) {
@@ -213,7 +207,6 @@ class BaseViewState< W extends StatefulWidget> extends State<W> {
     }
   }
 
-  @override
   void actionState(WidgetState state) {
     // if (isActive) {
     //   showLoaderDialog(context, text: text);

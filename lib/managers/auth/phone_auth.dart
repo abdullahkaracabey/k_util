@@ -4,7 +4,7 @@ import 'package:k_util/models/app_error.dart';
 import 'package:k_util/models/base_model.dart';
 import 'package:k_util/models/base_view_state.dart';
 
-mixin PhoneAuth<T extends BaseModel> on BaseAuthManager<T> {
+mixin PhoneAuth<T extends BaseModel, S extends BaseAuthState> on BaseAuthManager<T, S> {
   late String phoneCountryCode;
 
   String? _currentPhoneNumber;
