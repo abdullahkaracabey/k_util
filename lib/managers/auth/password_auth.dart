@@ -49,7 +49,9 @@ mixin PasswordAuth<U extends BaseModel, S extends BaseAuthState>
   void _handleAfterLogin(Map<String, dynamic> result) {
     user = createUser(result);
     appManager?.prepareAppAfterLogin();
+  }
 
-    
+  Future<void> resetPassword(String email) {
+    return (authApi as BasePasswordAuthApi).resetPassword(email);
   }
 }

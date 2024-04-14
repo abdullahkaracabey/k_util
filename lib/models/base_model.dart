@@ -10,6 +10,7 @@ abstract class BaseModel extends ChangeNotifier {
   DateTime? createdAt;
   DateTime? updatedAt;
   ModelState? state;
+  
 
   BaseModel({this.id, this.createdAt, this.updatedAt, this.state});
 
@@ -42,7 +43,11 @@ abstract class BaseModel extends ChangeNotifier {
       }
     }
 
-    state = ModelState.values.byName(data["state"] ?? ModelState.active.name);
+    final _state = data["state"];
+
+    if (_state is String) {
+      state = ModelState.values.byName(data["state"] ?? ModelState.active.name);
+    }
   }
 
   bool isEqual(BaseModel model) {
