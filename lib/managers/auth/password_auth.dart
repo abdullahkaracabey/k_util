@@ -55,4 +55,8 @@ mixin PasswordAuth<U extends BaseModel, S extends BaseAuthState>
   Future<void> resetPassword(String email) {
     return (authApi as BasePasswordAuthApi).resetPassword(email);
   }
+
+  Future<void> updatePassword(String newPassword) {
+    return (authApi as BasePasswordAuthApi).updatePassword(newPassword);
+  }
 }

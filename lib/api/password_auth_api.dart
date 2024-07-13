@@ -6,6 +6,7 @@ abstract class BasePasswordAuthApi {
       String username, String password);
 
   Future<void> resetPassword(String username);
+  Future<void> updatePassword(String newPassword);
 
   @Deprecated('Use BaseSocialMediaAuthApi instead')
   Future<Map<String, dynamic>> loginWithFacebook(String token);

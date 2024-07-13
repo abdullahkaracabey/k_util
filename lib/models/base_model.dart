@@ -18,6 +18,8 @@ abstract class BaseModel extends ChangeNotifier {
 
   List<String> searchIndexes();
 
+  
+
   BaseModel.fromJson(Map<String, dynamic> data) {
     var modelId = data[kId];
 
