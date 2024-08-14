@@ -4,7 +4,16 @@ abstract class BasePasswordAuthApi {
       String username, String password);
   Future<Map<String, dynamic>> signUpWithPassword(
       String username, String password);
+
+  Future<void> resetPassword(String username);
+  Future<void> updatePassword(String newPassword);
+
+  @Deprecated('Use BaseSocialMediaAuthApi instead')
   Future<Map<String, dynamic>> loginWithFacebook(String token);
+
+  @Deprecated('Use BaseSocialMediaAuthApi instead')
   Future<Map<String, dynamic>> loginWithApple(Map<String, String> params);
-  Future<Map<String, dynamic>> loginWithGoogle();
+
+  @Deprecated('Use BaseSocialMediaAuthApi instead')
+  Future<Map<String, dynamic>> loginWithGoogle(Map<String, String> params);
 }

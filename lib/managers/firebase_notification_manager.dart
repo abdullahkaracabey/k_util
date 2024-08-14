@@ -23,7 +23,8 @@ abstract class BaseFirebaseNotificationManager extends ChangeNotifier {
   BaseFirebaseNotificationManager({required this.channel});
 
   Future<void> initializeFireBaseMessaging(
-      {required FireBaseBackgroundHandler onBackgroundMessage}) async {
+      {required FireBaseBackgroundHandler onBackgroundMessage,
+      String? androidNotificationIconNativePath}) async {
     FirebaseMessaging.onBackgroundMessage(onBackgroundMessage);
     channel == channel;
     // _channel = const AndroidNotificationChannel(
@@ -36,8 +37,8 @@ abstract class BaseFirebaseNotificationManager extends ChangeNotifier {
     //     enableVibration: true,
     //     showBadge: true);
 
-    var initializationSettingsAndroid =
-        const AndroidInitializationSettings('@mipmap/ic_launcher');
+    var initializationSettingsAndroid = AndroidInitializationSettings(
+        androidNotificationIconNativePath ?? '@mipmap/ic_launcher');
     var initializationSettingsIOS = const IOSInitializationSettings();
     var initializationSettings = InitializationSettings(
         android: initializationSettingsAndroid, iOS: initializationSettingsIOS);

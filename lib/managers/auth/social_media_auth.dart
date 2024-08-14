@@ -34,6 +34,21 @@ mixin SocialMediaAuth<T extends BaseModel, S extends BaseAuthState>
     });
   }
 
+  Future<void> loginWithGoogle(Map<String, String> params) async {
+    return callRequest(() async {
+      if (authApi is BaseSocialMediaAuthApi) {
+        var result =
+            await (authApi as BaseSocialMediaAuthApi).loginWithGoogle(params);
+
+        _handleAfterLogin(result);
+      } else {
+        throw const AppException(
+            code: AppException.kDeveloperLog,
+            message: "authApi should be BaseSocialMediaAuthApi");
+      }
+    });
+  }
+
   void _handleAfterLogin(Map<String, dynamic> result) {
     user = createUser(result);
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:k_util/api/base_auth_api.dart';
 import 'package:k_util/managers/base_app_manager.dart';
 import 'package:k_util/managers/base_manager.dart';
@@ -29,11 +28,17 @@ abstract class BaseAuthManager<U extends BaseModel, S extends BaseAuthState>
   String? get authToken;
 
   set user(U? u) {
-    state = AsyncValue.data(state.value?.cloneWithUser(u) as S);
+    // state = AsyncValue.data(state.value?.cloneWithUser(u) as S);
 
-    // update((state) {
-    //   return state.cloneWithUser(u) as S;
-    // });
+    update((state) {
+      return state.cloneWithUser(u) as S;
+    });
+  }
+
+  Future<void> updateUser(U? u) async {
+    await update((state) {
+      return state.cloneWithUser(u) as S;
+    });
   }
 
   U createUser(Map<String, dynamic> data);

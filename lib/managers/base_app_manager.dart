@@ -1,11 +1,15 @@
-import 'dart:io';
+import 'dart:isolate';
+import 'dart:ui';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:k_util/managers/base_auth_manager.dart';
 import 'package:k_util/managers/firebase_notification_manager.dart';
+import 'package:k_util/models/app_error.dart';
+import 'package:universal_io/io.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -20,8 +24,44 @@ abstract class BaseAppManager<T> extends AsyncNotifier<T> {
 
   Future<String> appVersion();
 
-  Future<void> initialize({dynamic options}) async {
+  Future<void> initialize(
+      {dynamic options, String? androidNotificationIconNativePath}) async {
+    // FlutterError.onError = (errorDetails) {
+    //   if (!FirebaseCrashlytics.instance.isCrashlyticsCollectionEnabled) {
+    //     return;
+    //   }
+    //   if (errorDetails.exception is AppException) {
+    //     return;
+    //   }
+    //   FirebaseCrashlytics.instance.recordFlutterError(errorDetails);
+    // };
+    // // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
+    // PlatformDispatcher.instance.onError = (error, stack) {
+    //   if (!FirebaseCrashlytics.instance.isCrashlyticsCollectionEnabled) {
+    //     return false;
+    //   }
+    //   if (error is AppException == false) {
+    //     FirebaseCrashlytics.instance.recordError(
+    //       error,
+    //       stack,
+    //     );
+    //   }
+    //   return true;
+    // };
+
+    // Isolate.current.addErrorListener(RawReceivePort((pair) async {
+    //   if (!FirebaseCrashlytics.instance.isCrashlyticsCollectionEnabled) {
+    //     return;
+    //   }
+    //   final List<dynamic> errorAndStacktrace = pair;
+    //   await FirebaseCrashlytics.instance.recordError(
+    //     errorAndStacktrace.first,
+    //     errorAndStacktrace.last,
+    //   );
+    // }).sendPort);
+
     await firebaseNotificationManager.initializeFireBaseMessaging(
+        androidNotificationIconNativePath: androidNotificationIconNativePath,
         onBackgroundMessage: _firebaseMessagingBackgroundHandler);
   }
 
