@@ -1,14 +1,9 @@
-import 'dart:isolate';
-import 'dart:ui';
-
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:k_util/managers/base_auth_manager.dart';
 import 'package:k_util/managers/firebase_notification_manager.dart';
-import 'package:k_util/models/app_error.dart';
 import 'package:universal_io/io.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -25,7 +20,9 @@ abstract class BaseAppManager<T> extends AsyncNotifier<T> {
   Future<String> appVersion();
 
   Future<void> initialize(
-      {dynamic options, String? androidNotificationIconNativePath}) async {
+      {required FireBaseBackgroundHandler onBackgroundMessage,
+      required OnNotificationResponse onNotificationResponse,
+      String? androidNotificationIconNativePath}) async {
     // FlutterError.onError = (errorDetails) {
     //   if (!FirebaseCrashlytics.instance.isCrashlyticsCollectionEnabled) {
     //     return;
@@ -62,6 +59,7 @@ abstract class BaseAppManager<T> extends AsyncNotifier<T> {
 
     await firebaseNotificationManager.initializeFireBaseMessaging(
         androidNotificationIconNativePath: androidNotificationIconNativePath,
+        onNotificationResponse: onNotificationResponse,
         onBackgroundMessage: _firebaseMessagingBackgroundHandler);
   }
 

@@ -1,13 +1,14 @@
 import 'package:flutter/widgets.dart';
 
 class NavigationService {
-  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> navigatorKey =
+      GlobalKey<NavigatorState>();
 
-  void pop({dynamic arguments}) {
+  static void pop({dynamic arguments}) {
     navigatorKey.currentState?.pop(arguments);
   }
 
-  void push(Widget screen) {
+  static void push(Widget screen) {
     // pushScreen(context, screen)
     navigatorKey.currentState?.push(PageRouteBuilder(
       pageBuilder: (
@@ -28,5 +29,10 @@ class NavigationService {
         );
       },
     ));
+  }
+
+  static Future<dynamic> navigateTo(String routeName, {dynamic arguments}) {
+    return navigatorKey.currentState!
+        .pushNamed(routeName, arguments: arguments);
   }
 }

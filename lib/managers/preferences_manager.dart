@@ -26,7 +26,7 @@ abstract class BasePreferencesManager<T extends BaseModel> {
     try {
       var pref = await preferences();
       await pref.putMap(_kUser, user.toJson(ignoreDates: true),
-          isEncrypted: Platform.isAndroid);
+          isEncrypted: false);
     } catch (e) {
       debugPrint(e.toString());
     }

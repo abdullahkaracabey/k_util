@@ -31,7 +31,7 @@ export 'package:webview_flutter/webview_flutter.dart';
 
 export 'api/apis.dart';
 export 'controllers/controllers.dart';
-export 'extensions/extentions.dart';
+export 'extensions/extensions.dart';
 export 'l10n/k_util_localizations.dart';
 export 'managers/managers.dart';
 export 'models/models.dart';
