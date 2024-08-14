@@ -17,12 +17,11 @@ dependencies:
   provider: ^6.0.3
   get_it: ^7.2.0
   intl: 
-  firebase_core: ^2.3.0
-  firebase_messaging: ^14.1.1
-  firebase_analytics: ^10.0.6
-  firebase_crashlytics: ^3.0.6
-  # flutter_local_notifications: ^12.0.3+1
-  flutter_local_notifications: ^9.4.0
+  firebase_core: ^3.2.0
+  firebase_messaging: ^15.0.3
+  firebase_analytics: ^11.2.0
+  firebase_crashlytics: ^4.0.3
+  flutter_local_notifications: ^17.2.2
   connectivity_plus: ^5.0.1
   package_info_plus: ^4.2.0
   store_redirect: ^2.0.1
@@ -48,6 +47,9 @@ dependencies:
   app_version_update: ^2.0.3
   collection: ^1.17.2
   http_parser: ^4.0.2
+  universal_io: ^2.2.2
+  dio: ^5.6.0
+  
   
   
    

@@ -1,13 +1,15 @@
-import 'dart:convert';
+import 'dart:convert' show jsonDecode, jsonEncode;
 
+import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+typedef OnNotificationResponse = void Function(NotificationResponse)?;
 typedef FireBaseBackgroundHandler = Future<void> Function(
     RemoteMessage message);
 
-abstract class BaseFirebaseNotificationManager extends ChangeNotifier {
+abstract class BaseFirebaseNotificationManager {
   FirebaseMessaging? messaging;
 
   /// Create a [AndroidNotificationChannel] for heads up notifications
@@ -16,14 +18,21 @@ abstract class BaseFirebaseNotificationManager extends ChangeNotifier {
   /// Initialize the [FlutterLocalNotificationsPlugin] package.
   late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
-  void onNotification(RemoteNotification notification);
+  void onNotification(RemoteMessage notification);
   void onRemoteMessage(RemoteMessage message);
-  void onMessagingToken(String token);
+  Future<void> onMessagingToken(String token);
+
+  bool _isInitialized = false;
 
   BaseFirebaseNotificationManager({required this.channel});
 
   Future<void> initializeFireBaseMessaging(
-      {required FireBaseBackgroundHandler onBackgroundMessage}) async {
+      {required FireBaseBackgroundHandler onBackgroundMessage,
+      required OnNotificationResponse onNotificationResponse,
+      String? androidNotificationIconNativePath}) async {
+    if (_isInitialized) return;
+    _isInitialized = true;
+    debugPrint("initializeFireBaseMessaging");
     FirebaseMessaging.onBackgroundMessage(onBackgroundMessage);
     channel == channel;
     // _channel = const AndroidNotificationChannel(
@@ -36,29 +45,28 @@ abstract class BaseFirebaseNotificationManager extends ChangeNotifier {
     //     enableVibration: true,
     //     showBadge: true);
 
-    var initializationSettingsAndroid =
-        const AndroidInitializationSettings('@mipmap/ic_launcher');
-    var initializationSettingsIOS = const IOSInitializationSettings();
+    var initializationSettingsAndroid = AndroidInitializationSettings(
+        androidNotificationIconNativePath ?? '@mipmap/ic_launcher');
+    var initializationSettingsIOS = const DarwinInitializationSettings();
     var initializationSettings = InitializationSettings(
         android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
 
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-    flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: _onSelectNotification);
+    await flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onDidReceiveNotificationResponse: onNotificationResponse,
+      onDidReceiveBackgroundNotificationResponse: onNotificationResponse,
+    );
 
-    /// Create an Android Notification Channel.
-    ///
-    /// We use this channel in the `AndroidManifest.xml` file to override the
-    /// default FCM channel to enable heads up notifications.
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
 
-    _setupInteractedMessage();
-    _requestNotificationPermission();
+    await _setupInteractedMessage();
+
     _foregroundMessagingConfigure();
-    _messagingToken();
+    await checkMessagingToken();
   }
 
   void _foregroundMessagingConfigure() async {
@@ -72,13 +80,13 @@ abstract class BaseFirebaseNotificationManager extends ChangeNotifier {
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       debugPrint('Got a message whilst in the foreground!');
-      debugPrint('Message data: ${message.data}');
+      debugPrint('Message data: $message');
 
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
-      if (notification != null) {
-        onNotification(notification);
 
+      onNotification(message);
+      if (notification != null) {
         await messaging!.setForegroundNotificationPresentationOptions(
           alert: true,
           badge: true,
@@ -88,6 +96,23 @@ abstract class BaseFirebaseNotificationManager extends ChangeNotifier {
         try {
           var flutterLocalNotificationsPlugin =
               FlutterLocalNotificationsPlugin();
+
+          BigPictureStyleInformation? bigPictureStyleInformation;
+
+          if (android?.imageUrl != null) {
+            var response = await Dio().getUri(Uri.parse(android!.imageUrl!));
+            debugPrint(response.data);
+            // bigPictureStyleInformation = BigPictureStyleInformation(
+            //   ByteArrayAndroidBitmap.fromBase64String(response.data),
+            //   largeIcon: ByteArrayAndroidBitmap.fromBase64String(response.data),
+            // );
+
+            bigPictureStyleInformation = BigPictureStyleInformation(
+              FilePathAndroidBitmap(android.imageUrl!),
+              contentTitle: notification.title,
+              summaryText: notification.body,
+            );
+          }
           await flutterLocalNotificationsPlugin.show(
               0, //notification.hashCode,
               notification.title,
@@ -96,21 +121,25 @@ abstract class BaseFirebaseNotificationManager extends ChangeNotifier {
                   android: android != null
                       ? AndroidNotificationDetails(channel.id, channel.name,
                           channelDescription: channel.description,
-                          // sound: RawResourceAndroidNotificationSound('horn'),
+                          styleInformation: bigPictureStyleInformation,
+                          // largeIcon: android.imageUrl != null
+                          //     ? DrawableResourceAndroidBitmap('splash')
+                          //     : null,
+                          // sound: RawResourceAndroidNotificationSound('notification'),
                           icon: android.smallIcon)
                       : null,
-                  iOS: const IOSNotificationDetails(
+                  iOS: const DarwinNotificationDetails(
                     presentAlert: true,
                     presentSound: true,
                     presentBadge: true,
-                    //sound: "horn.caf"
+                    //sound: "notification.caf"
                   )),
               payload: jsonEncode(message.data));
         } catch (e) {
           debugPrint(e.toString());
         }
 
-        messaging!.setForegroundNotificationPresentationOptions(
+        await messaging!.setForegroundNotificationPresentationOptions(
           alert: false,
           badge: false,
           sound: false,
@@ -119,26 +148,26 @@ abstract class BaseFirebaseNotificationManager extends ChangeNotifier {
     });
   }
 
-  Future<void> playNotificationSound() async {
-    // AudioCache player = new AudioCache();
-    // const alarmAudioPath = "horn.mp3";
+  Future<bool> requestNotificationPermission() async {
+    final result = await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.requestNotificationsPermission();
 
-    // player.respectSilence = true;
-    // player.play(alarmAudioPath);
-  }
+    debugPrint("Notification permission granted, $result");
 
-  Future<void> _requestNotificationPermission() async {
-    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    return result ?? false;
+    // FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-    NotificationSettings settings = await messaging.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
-      sound: true,
-    );
+    // NotificationSettings settings = await messaging.requestPermission(
+    //   alert: true,
+    //   announcement: false,
+    //   badge: true,
+    //   carPlay: false,
+    //   criticalAlert: false,
+    //   provisional: false,
+    //   sound: true,
+    // );
 
     // if (settings.authorizationStatus == AuthorizationStatus.authorized ||
     //     settings.authorizationStatus == AuthorizationStatus.provisional)
@@ -162,7 +191,7 @@ abstract class BaseFirebaseNotificationManager extends ChangeNotifier {
     FirebaseMessaging.onMessageOpenedApp.listen(onRemoteMessage);
   }
 
-  _onSelectNotification(String? payload) {
+  void _onSelectNotification(String? payload) {
     if (payload == null) return;
 
     try {
@@ -173,14 +202,16 @@ abstract class BaseFirebaseNotificationManager extends ChangeNotifier {
     }
   }
 
-  _messagingToken() async {
+  Future<void> checkMessagingToken() async {
     try {
       String? token = await FirebaseMessaging.instance.getToken();
 
       if (token != null) {
-        onMessagingToken(token);
+        await onMessagingToken(token);
       }
       debugPrint("Firebase messaging token $token");
-    } catch (e) {}
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 }

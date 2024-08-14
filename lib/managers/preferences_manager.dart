@@ -1,8 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:k_util/models/base_model.dart';
 import 'package:secure_shared_preferences/secure_shared_preferences.dart';
+import 'package:universal_io/io.dart';
 
 abstract class BasePreferencesManager<T extends BaseModel> {
   final _kUser = "user";

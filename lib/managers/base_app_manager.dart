@@ -1,11 +1,9 @@
-import 'dart:io';
-
-import 'package:firebase_messaging/firebase_messaging.dart';
-
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/widgets.dart';
 import 'package:k_util/managers/base_auth_manager.dart';
 import 'package:k_util/managers/firebase_notification_manager.dart';
+import 'package:universal_io/io.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -18,6 +16,7 @@ abstract class BaseAppManager extends ChangeNotifier {
   bool _initialized = false;
   bool _isSplashScreenSeen = false;
   bool _isLoginComplete = false;
+  bool _shouldFortuneWheelScreenVisible = false;
 
   bool get isSplashScreenSeen => _isSplashScreenSeen;
   set isSplashScreenSeen(bool isSeen) {
@@ -27,14 +26,20 @@ abstract class BaseAppManager extends ChangeNotifier {
 
   bool get isInitialized => _initialized;
   bool get isLoginComplete => _isLoginComplete;
+  bool get shouldFortuneWheelScreenVisible => _shouldFortuneWheelScreenVisible;
 
   BaseFirebaseNotificationManager get firebaseNotificationManager;
   BaseAuthManager? get authManager;
 
   Future<String> appVersion();
 
-  Future<void> initialize({dynamic options}) async {
+  Future<void> initialize(
+      {required FireBaseBackgroundHandler onBackgroundMessage,
+      required OnNotificationResponse onNotificationResponse,
+      String? androidNotificationIconNativePath}) async {
     await firebaseNotificationManager.initializeFireBaseMessaging(
+        androidNotificationIconNativePath: androidNotificationIconNativePath,
+        onNotificationResponse: onNotificationResponse,
         onBackgroundMessage: _firebaseMessagingBackgroundHandler);
     await authManager?.prepare();
     _initialized = true;
@@ -52,6 +57,11 @@ abstract class BaseAppManager extends ChangeNotifier {
 
   void onLogout() {
     _isLoginComplete = false;
+    notifyListeners();
+  }
+
+  void showFortuneWheel(bool shouldShow) {
+    _shouldFortuneWheelScreenVisible = shouldShow;
     notifyListeners();
   }
 }

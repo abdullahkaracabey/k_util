@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide WidgetState;
 import 'package:k_util/l10n/k_util_localizations.dart';
 import 'package:k_util/models/app_error.dart';
 import 'package:k_util/models/enums.dart';
@@ -10,7 +10,7 @@ enum ErrorShowType { snack, modal }
 
 typedef RequestCall<T> = Future<T> Function();
 
-class BaseViewState< W extends StatefulWidget> extends State<W> {
+class BaseViewState<W extends StatefulWidget> extends State<W> {
   WidgetState currentState = WidgetState.init;
   ColorScheme get colorScheme => Theme.of(context).colorScheme;
   TextTheme get textTheme => Theme.of(context).textTheme;
@@ -150,7 +150,7 @@ class BaseViewState< W extends StatefulWidget> extends State<W> {
         context: context,
         builder: (context) => AlertDialog(
               title: Text(localization.error),
-              content: Text(message),
+              content: Text("$message ${error.code ?? ''}"),
               actions: [
                 ElevatedButton(
                     onPressed: () => Navigator.pop(context),
