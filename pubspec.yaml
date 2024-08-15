@@ -38,9 +38,9 @@ dependencies:
   dartx: ^1.2.0
   cached_network_image: ^3.3.1
   animated_state_widget:
-    # git:
-      # url: https://github.com/abdullahkaracabey/animated-state-widget.git
-    path: '/Users/abdullah/Works/Personal/Flutter/animated-state-widget'
+    git:
+      url: https://github.com/abdullahkaracabey/animated-state-widget.git
+    # path: '/Users/abdullah/Works/Personal/Flutter/animated-state-widget'
 
   enum_to_string: ^2.0.1
   webview_flutter: ^4.4.2
