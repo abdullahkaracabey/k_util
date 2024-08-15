@@ -43,7 +43,7 @@ dependencies:
     # path: '/Users/abdullah/Works/Personal/Flutter/animated-state-widget'
 
   enum_to_string: ^2.0.1
-  webview_flutter: ^4.4.2
+  webview_flutter: ^4.8.0
   dots_indicator: ^3.0.0
   path_provider: ^2.1.0
   app_settings: ^5.1.1
