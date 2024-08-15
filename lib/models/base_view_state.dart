@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide WidgetState;
 import 'package:k_util/l10n/k_util_localizations.dart';
 import 'package:k_util/models/app_error.dart';
 import 'package:k_util/models/enums.dart';

@@ -27,6 +27,7 @@ export 'api/apis.dart';
 export 'extensions/extentions.dart';
 export 'l10n/k_util_localizations.dart';
 export 'managers/managers.dart';
+export 'mixing/api.dart';
 export 'models/models.dart';
 export 'services/services.dart';
 export 'util/util.dart';
