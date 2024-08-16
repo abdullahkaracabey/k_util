@@ -50,7 +50,7 @@ abstract class BaseAuthManager<U extends BaseModel, S extends BaseAuthState>
     await update((state) => state.cleanState() as S);
   }
 
-  Future<void> deleteAccount() async {}
+  Future<void> deleteAccount();
 
   Future<void> updateMessagingToken(String token) async {
     var currentToken = await preferencesManager.getMessagingToken();
