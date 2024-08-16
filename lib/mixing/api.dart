@@ -16,6 +16,8 @@ mixin Api {
 
   VoidCallback? unAuthorizedCallback;
 
+  Dio get dio;
+
   Future<dynamic> postRequest(String url, dynamic body,
       {Map<String, dynamic>? headers}) async {
     try {
