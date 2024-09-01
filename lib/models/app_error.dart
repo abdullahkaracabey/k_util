@@ -16,6 +16,20 @@ class AppException implements Exception {
   static const kCartEmpty = 908;
   static const kLoginFailed = 909;
 
+  static const kNotAuthorized = 401;
+  static const kUserNotFound = 1000;
+  static const kUserDisabled = 1001;
+  static const kWrongPassword = 1002;
+  static const kTooManyRequests = 1003;
+  static const kEmailAlreadyInUse = 1004;
+  static const kWeakPassword = 1005;
+  static const kOperationNotAllowed = 1006;
+  static const kInvalidEmail = 1007;
+  static const kUnknown = 1008;
+  static const kPhotoProcessError = 1009;
+  static const kLocationNotFound = 1010;
+  static const kErrorUserNameContainsAppName = 1011;
+
   static const unknownError = AppException(code: AppException.kUnknownError);
   static const unAuthorized = AppException(code: AppException.kUnAuthorized);
   static const unPermitted = AppException(code: AppException.kUnPermitted);

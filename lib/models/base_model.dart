@@ -14,7 +14,11 @@ abstract class BaseModel extends ChangeNotifier {
 
   Map<String, dynamic> additionalParams = {};
 
-  BaseModel({this.id, this.createdAt, this.updatedAt, this.state});
+  BaseModel({this.id, this.createdAt, this.updatedAt, this.state}){
+    createdAt ??= DateTime.now();
+
+    updatedAt ??= DateTime.now();
+  }
 
   List<String> searchIndexes();
 
