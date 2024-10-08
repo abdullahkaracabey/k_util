@@ -31,7 +31,10 @@ abstract class BaseAuthManager<T extends BaseModel> extends BaseManager {
     notifyListeners();
   }
 
-  Future<void> deleteAccount() async {}
+  Future<void> deleteAccount() async {
+    await authApi.deleteAccount();
+    await logout();
+  }
 
   Future<void> updateMessagingToken(String token) async {
     var currentToken = await preferencesManager.getMessagingToken();
