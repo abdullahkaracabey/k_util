@@ -28,15 +28,16 @@ abstract class BaseAuthManager<U extends BaseModel, S extends BaseAuthState>
   String? get authToken;
 
   set user(U? u) {
-    // state = AsyncValue.data(state.value?.cloneWithUser(u) as S);
-
-    update((state) {
-      return state.cloneWithUser(u) as S;
-    });
+    updateUser(u);
   }
 
   Future<void> updateUser(U? u) async {
     await update((state) {
+      if (u != null) {
+        preferencesManager.setUser(u!);
+      } else {
+        preferencesManager.clear();
+      }
       return state.cloneWithUser(u) as S;
     });
   }
