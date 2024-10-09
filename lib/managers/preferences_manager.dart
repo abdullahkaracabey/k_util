@@ -36,7 +36,7 @@ abstract class BasePreferencesManager<T extends BaseModel> {
     var pref = await preferences();
     try {
       var userAsString =
-          await pref.getMap(_kUser, isEncrypted: Platform.isAndroid);
+          await pref.getMap(_kUser, isEncrypted: false);
 
       if (userAsString != null && userAsString.isNotEmpty) {
         var map = userAsString as Map<String, dynamic>;

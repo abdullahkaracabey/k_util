@@ -32,9 +32,9 @@ abstract class BaseAuthManager<U extends BaseModel, S extends BaseAuthState>
   }
 
   Future<void> updateUser(U? u) async {
-    await update((state) {
+    await update((state) async {
       if (u != null) {
-        preferencesManager.setUser(u!);
+        await preferencesManager.setUser(u!);
       } else {
         preferencesManager.clear();
       }
