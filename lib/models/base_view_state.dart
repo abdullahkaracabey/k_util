@@ -99,6 +99,7 @@ class BaseViewState<W extends ConsumerStatefulWidget> extends ConsumerState<W> {
       {ErrorShowType showType = ErrorShowType.snack,
       shouldClearActionState = true}) {
     currentState = WidgetState.init;
+    if (!mounted) return;
     final localization = KUtilLocalizations.of(context)!;
 
     AppException error;
