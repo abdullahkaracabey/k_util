@@ -39,6 +39,7 @@ class _StateWidgetState extends ConsumerState<ElevatedStateButton> {
 
   void _onTap() {
     if (widget.controller.isOnAction() == true) return;
+    widget.controller.start();
     widget.onPressed
         ?.call()
         .onError((error, stackTrace) => widget.controller.error())
