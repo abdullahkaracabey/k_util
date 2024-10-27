@@ -7,39 +7,43 @@ abstract class BaseModel extends ChangeNotifier {
   static String kCreatedAt = "createdAt";
   static String kUpdatedAt = "updatedAt";
   static String kModelState = "modelState";
-  String? id;
+  static String kModelType = "modelType";
+
+  final String? id;
   DateTime? createdAt;
   DateTime? updatedAt;
-  ModelState? state;
+  final ModelState? state;
 
-  Map<String, dynamic> additionalParams = {};
+  final Map<String, dynamic>? _additionalParams;
 
-  BaseModel({this.id, this.createdAt, this.updatedAt, this.state}){
+  String get modelType;
+  Map<String, dynamic> get additionalParams => _additionalParams ?? {};
+
+  List<String> searchIndexes();
+
+  BaseModel({this.id, this.createdAt, this.updatedAt, this.state})
+      : _additionalParams = null {
     createdAt ??= DateTime.now();
 
     updatedAt ??= DateTime.now();
   }
 
-  List<String> searchIndexes();
-
-  
-
-  BaseModel.fromJson(Map<String, dynamic> data) {
-    var modelId = data[kId];
-
-    if (modelId is int) {
-      id = "$modelId";
-    } else {
-      id = modelId;
-    }
-
+  BaseModel.fromJson(Map<String, dynamic> data)
+      : id = data[kId]?.toString(),
+        state = ModelState.values.contains(data[kModelState])
+            ? ModelState.values.byName(data[kModelState])
+            : ModelState.active,
+        _additionalParams = data {
     var dateC = data[kCreatedAt];
-
     if (dateC != null) {
       if (dateC is DateTime) {
         createdAt = dateC;
       } else {
-        createdAt = dateC?.toDate();
+        try {
+          createdAt = dateC?.toDate();
+        } catch (e) {
+          debugPrint("Error: $e");
+        }
       }
     }
 
@@ -49,32 +53,24 @@ abstract class BaseModel extends ChangeNotifier {
       if (dateU is DateTime) {
         updatedAt = dateU;
       } else {
-        updatedAt = dateU?.toDate();
+        try {
+          updatedAt = dateU?.toDate();
+        } catch (e) {
+          debugPrint("Error: $e");
+        }
       }
     }
-
-    final _state = data[kModelState];
-
-    if (_state is String) {
-      if (ModelState.values.contains(_state)) {
-        state = ModelState.values.byName(_state);
-      } else {
-        state = ModelState.active;
-      }
-    }
-
-    additionalParams = data;
   }
 
   bool isEqual(BaseModel model) {
     return id == model.id;
   }
 
-  List<String>? _handleSearchIndexes() {
+  List<String>? handleSearchIndexes() {
     var searchList = searchIndexes();
     var result = <String>[];
     if (searchList.isNotEmpty) {
-      searchList.forEach((element) {
+      for (var element in searchList) {
         final text = element.trim().toLowerCase();
 
         if (text.isNotEmpty) {
@@ -86,7 +82,7 @@ abstract class BaseModel extends ChangeNotifier {
             }
           });
         }
-      });
+      }
     }
 
     if (result.isNotEmpty) {
@@ -97,9 +93,15 @@ abstract class BaseModel extends ChangeNotifier {
   }
 
   Map<String, dynamic> toJson({bool ignoreDates = false}) {
+    final params = _additionalParams ?? {};
+
+    params.removeWhere((key, value) => value == null);
+    params.removeWhere(
+        (key, value) => key == kId || key == kModelState || key == kModelType);
     var result = <String, dynamic>{
       kModelState: state?.name ?? ModelState.active.name,
-      ...additionalParams
+      kModelType: modelType,
+      ...params
     };
 
     if (id != null) result["id"] = id;
@@ -112,7 +114,7 @@ abstract class BaseModel extends ChangeNotifier {
       result.remove("updatedAt");
     }
 
-    final searchList = _handleSearchIndexes();
+    final searchList = handleSearchIndexes();
 
     if (searchList != null) {
       result["searchText"] = searchList;
