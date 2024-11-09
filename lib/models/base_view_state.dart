@@ -1,3 +1,5 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart' hide WidgetState;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:k_util/l10n/k_util_localizations.dart';
@@ -16,7 +18,20 @@ class BaseViewState<W extends ConsumerStatefulWidget> extends ConsumerState<W> {
   TextTheme get textTheme => Theme.of(context).textTheme;
   BuildContext? _dialogContext;
 
-  BaseViewState();
+  @override
+  initState() {
+    super.initState();
+
+    // if (Firebase.apps.isNotEmpty) {
+    //   FirebaseAnalytics.instance.isSupported().then((value) {
+    //     debugPrint("Firebase Analytics is supported: $value");
+    //     if (value) {
+    //       FirebaseAnalytics.instance
+    //           .logScreenView(screenName: widget.runtimeType.toString());
+    //     }
+    //   });
+    // }
+  }
 
   Widget getLoadingView() {
     return const CircularProgressIndicator();
