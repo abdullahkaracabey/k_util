@@ -1,5 +1,3 @@
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart' hide WidgetState;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:k_util/l10n/k_util_localizations.dart';
@@ -110,9 +108,9 @@ class BaseViewState<W extends ConsumerStatefulWidget> extends ConsumerState<W> {
     throw UnimplementedError();
   }
 
-  void onError(dynamic rawError,
+  Future<void> onError(dynamic rawError,
       {ErrorShowType showType = ErrorShowType.snack,
-      shouldClearActionState = true}) {
+      shouldClearActionState = true}) async {
     currentState = WidgetState.init;
     if (!mounted) return;
     final localization = KUtilLocalizations.of(context)!;
@@ -156,7 +154,7 @@ class BaseViewState<W extends ConsumerStatefulWidget> extends ConsumerState<W> {
       return;
     }
 
-    showDialog(
+    return showDialog(
         context: context,
         builder: (context) => AlertDialog(
               title: Text(localization.error),
@@ -169,9 +167,9 @@ class BaseViewState<W extends ConsumerStatefulWidget> extends ConsumerState<W> {
             ));
   }
 
-  showInfoDialog(String title, String message) {
+  Future<void> showInfoDialog(String title, String message) {
     final localization = KUtilLocalizations.of(context)!;
-    showDialog(
+    return showDialog(
         context: context,
         builder: (context) => AlertDialog(
               title: Text(title),
