@@ -30,7 +30,7 @@ abstract class BaseModel extends ChangeNotifier {
 
   BaseModel.fromJson(Map<String, dynamic> data)
       : id = data[kId]?.toString(),
-        state = ModelState.values.contains(data[kModelState])
+        state = ModelState.values.where((element) => element.name == data[kModelState]).isNotEmpty
             ? ModelState.values.byName(data[kModelState])
             : ModelState.active,
         _additionalParams = data {
