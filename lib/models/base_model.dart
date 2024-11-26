@@ -17,11 +17,17 @@ abstract class BaseModel extends ChangeNotifier {
   final Map<String, dynamic>? _additionalParams;
 
   String get modelType;
+
+  bool get isDeleted => state == ModelState.deleted;
+  bool get isArchived => state == ModelState.archived;
+  bool get isActive => state == ModelState.active;
+  
   Map<String, dynamic> get additionalParams => _additionalParams ?? {};
 
   List<String> searchIndexes();
 
-  BaseModel({this.id, this.createdAt, this.updatedAt, this.state})
+  BaseModel(
+      {this.id, this.createdAt, this.updatedAt, this.state = ModelState.active})
       : _additionalParams = null {
     createdAt ??= DateTime.now();
 
@@ -30,7 +36,9 @@ abstract class BaseModel extends ChangeNotifier {
 
   BaseModel.fromJson(Map<String, dynamic> data)
       : id = data[kId]?.toString(),
-        state = ModelState.values.where((element) => element.name == data[kModelState]).isNotEmpty
+        state = ModelState.values
+                .where((element) => element.name == data[kModelState])
+                .isNotEmpty
             ? ModelState.values.byName(data[kModelState])
             : ModelState.active,
         _additionalParams = data {
