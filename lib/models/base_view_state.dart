@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart' hide WidgetState;
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart'
+    show ConsumerStatefulWidget, ConsumerState;
 import 'package:k_util/l10n/k_util_localizations.dart';
 import 'package:k_util/managers/base_manager.dart';
 import 'package:k_util/models/app_error.dart';
@@ -10,7 +11,7 @@ typedef OnError = void Function(AppException error);
 
 enum ErrorShowType { snack, modal }
 
-class BaseViewState<W extends ConsumerStatefulWidget> extends ConsumerState<W> {
+abstract class BaseViewState<W extends ConsumerStatefulWidget> extends ConsumerState<W> {
   WidgetState currentState = WidgetState.init;
   ColorScheme get colorScheme => Theme.of(context).colorScheme;
   TextTheme get textTheme => Theme.of(context).textTheme;
@@ -102,11 +103,6 @@ class BaseViewState<W extends ConsumerStatefulWidget> extends ConsumerState<W> {
   //     },
   //   );
   // }
-
-  @override
-  Widget build(BuildContext context) {
-    throw UnimplementedError();
-  }
 
   Future<void> onError(dynamic rawError,
       {ErrorShowType showType = ErrorShowType.snack,
