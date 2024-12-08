@@ -25,6 +25,7 @@ abstract class BaseAppManager<T> extends AsyncNotifier<T> {
   Future<void> initialize(
       {required FireBaseBackgroundHandler onBackgroundMessage,
       required OnNotificationResponse onNotificationResponse,
+      required OnNotificationTokenUpdate onNotificationTokenUpdate,
       String? androidNotificationIconNativePath}) async {
     if (!kIsWeb) {
       FlutterError.onError = (errorDetails) {
@@ -60,11 +61,13 @@ abstract class BaseAppManager<T> extends AsyncNotifier<T> {
       //     errorAndStacktrace.last,
       //   );
       // }).sendPort);
+
+      await firebaseNotificationManager.initializeFireBaseMessaging(
+          androidNotificationIconNativePath: androidNotificationIconNativePath,
+          onNotificationResponse: onNotificationResponse,
+          onNotificationTokenUpdate: onNotificationTokenUpdate,
+          onBackgroundMessage: _firebaseMessagingBackgroundHandler);
     }
-    await firebaseNotificationManager.initializeFireBaseMessaging(
-        androidNotificationIconNativePath: androidNotificationIconNativePath,
-        onNotificationResponse: onNotificationResponse,
-        onBackgroundMessage: _firebaseMessagingBackgroundHandler);
   }
 
   void prepareAppAfterLogin();
