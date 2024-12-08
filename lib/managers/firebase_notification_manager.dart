@@ -9,6 +9,8 @@ typedef OnNotificationResponse = void Function(NotificationResponse)?;
 typedef FireBaseBackgroundHandler = Future<void> Function(
     RemoteMessage message);
 
+typedef OnNotificationTokenUpdate = void Function(String token);
+
 abstract class BaseFirebaseNotificationManager {
   FirebaseMessaging? messaging;
 
@@ -20,19 +22,23 @@ abstract class BaseFirebaseNotificationManager {
 
   void onNotification(RemoteMessage notification);
   void onRemoteMessage(RemoteMessage message);
-  Future<void> onMessagingToken(String token);
 
   bool _isInitialized = false;
+
+  OnNotificationTokenUpdate? onNotificationToken;
 
   BaseFirebaseNotificationManager({required this.channel});
 
   Future<void> initializeFireBaseMessaging(
       {required FireBaseBackgroundHandler onBackgroundMessage,
       required OnNotificationResponse onNotificationResponse,
+      required OnNotificationTokenUpdate onNotificationTokenUpdate,
       String? androidNotificationIconNativePath}) async {
     if (_isInitialized) return;
     _isInitialized = true;
     debugPrint("initializeFireBaseMessaging");
+
+    this.onNotificationToken = onNotificationTokenUpdate;
     FirebaseMessaging.onBackgroundMessage(onBackgroundMessage);
     channel == channel;
     // _channel = const AndroidNotificationChannel(
@@ -191,23 +197,12 @@ abstract class BaseFirebaseNotificationManager {
     FirebaseMessaging.onMessageOpenedApp.listen(onRemoteMessage);
   }
 
-  void _onSelectNotification(String? payload) {
-    if (payload == null) return;
-
-    try {
-      var data = jsonDecode(payload);
-      onRemoteMessage(RemoteMessage.fromMap({"data": data}));
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-  }
-
   Future<void> checkMessagingToken() async {
     try {
       String? token = await FirebaseMessaging.instance.getToken();
 
       if (token != null) {
-        await onMessagingToken(token);
+        onNotificationToken?.call(token);
       }
       debugPrint("Firebase messaging token $token");
     } catch (e) {
