@@ -9,6 +9,14 @@ extension DateTimeExtension on DateTime {
     return DateFormat(pattern, locale).format(this);
   }
 
+  String formatDate({String locale = "TR"}) {
+    return format(pattern: 'dd.MM.yyyy', locale: locale);
+  }
+
+  String formatDateTime({String locale = "TR"}) {
+    return format(pattern: 'dd.MM.yyyy HH:mm', locale: locale);
+  }
+
   DateTime toLocalDateTime({String format = "yyyy-MM-dd HH:mm:ss"}) {
     var dateTime = DateFormat(format).parse(toString(), true);
     return dateTime.toLocal();
