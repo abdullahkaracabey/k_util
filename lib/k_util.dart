@@ -29,7 +29,6 @@ export 'package:transparent_image/transparent_image.dart';
 export 'package:universal_io/io.dart';
 export 'package:url_launcher/url_launcher.dart';
 export 'package:uuid/uuid.dart';
-export 'package:webview_flutter/webview_flutter.dart' hide ProgressCallback;
 export 'package:connectivity_plus_platform_interface/src/enums.dart'
     show ConnectivityResult;
 
