@@ -199,6 +199,10 @@ abstract class BaseFirebaseNotificationManager {
 
   Future<void> checkMessagingToken() async {
     try {
+
+      if (kIsWeb) {
+        return;
+      }
       String? token = await FirebaseMessaging.instance.getToken();
 
       if (token != null) {
