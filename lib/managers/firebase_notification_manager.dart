@@ -92,6 +92,7 @@ abstract class BaseFirebaseNotificationManager {
       AndroidNotification? android = message.notification?.android;
 
       onNotification(message);
+      return;
       if (notification != null) {
         await messaging!.setForegroundNotificationPresentationOptions(
           alert: true,
@@ -199,7 +200,6 @@ abstract class BaseFirebaseNotificationManager {
 
   Future<void> checkMessagingToken() async {
     try {
-
       if (kIsWeb) {
         return;
       }
