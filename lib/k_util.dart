@@ -3,15 +3,16 @@ library k_util;
 export 'package:animated_state_widget/animated_state_widget.dart';
 export 'package:app_settings/app_settings.dart';
 export 'package:app_version_update/app_version_update.dart';
-export 'package:badges/badges.dart';
 export 'package:cached_network_image/cached_network_image.dart';
 export 'package:collection/collection.dart';
+export 'package:connectivity_plus_platform_interface/src/enums.dart'
+    show ConnectivityResult;
 export 'package:dio/dio.dart';
 export 'package:dots_indicator/dots_indicator.dart';
 export 'package:enum_to_string/enum_to_string.dart';
+export 'package:firebase_analytics/firebase_analytics.dart';
 export 'package:firebase_core/firebase_core.dart';
 export 'package:firebase_messaging/firebase_messaging.dart';
-export 'package:firebase_analytics/firebase_analytics.dart';
 export 'package:flutter_dotenv/flutter_dotenv.dart';
 export 'package:flutter_local_notifications/flutter_local_notifications.dart';
 export 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
@@ -29,8 +30,6 @@ export 'package:transparent_image/transparent_image.dart';
 export 'package:universal_io/io.dart';
 export 'package:url_launcher/url_launcher.dart';
 export 'package:uuid/uuid.dart';
-export 'package:connectivity_plus_platform_interface/src/enums.dart'
-    show ConnectivityResult;
 
 export 'api/apis.dart';
 export 'controllers/controllers.dart';
