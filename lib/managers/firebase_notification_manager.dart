@@ -38,18 +38,9 @@ abstract class BaseFirebaseNotificationManager {
     _isInitialized = true;
     debugPrint("initializeFireBaseMessaging");
 
-    this.onNotificationToken = onNotificationTokenUpdate;
+    onNotificationToken = onNotificationTokenUpdate;
     FirebaseMessaging.onBackgroundMessage(onBackgroundMessage);
     channel == channel;
-    // _channel = const AndroidNotificationChannel(
-    //     'notification_channel', // id
-    //     'Mesaj Bildirimleri', // title
-    //     description: 'Mesaj Bildirimlerinin alındığı kanal', // description
-    //     importance: Importance.max,
-    //     playSound: true,
-    //     // sound: RawResourceAndroidNotificationSound('horn'),
-    //     enableVibration: true,
-    //     showBadge: true);
 
     var initializationSettingsAndroid = AndroidInitializationSettings(
         androidNotificationIconNativePath ?? '@mipmap/ic_launcher');
@@ -88,71 +79,73 @@ abstract class BaseFirebaseNotificationManager {
       debugPrint('Got a message whilst in the foreground!');
       debugPrint('Message data: $message');
 
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
-
       onNotification(message);
-      return;
-      if (notification != null) {
-        await messaging!.setForegroundNotificationPresentationOptions(
-          alert: true,
-          badge: true,
-          sound: true,
-        );
-
-        try {
-          var flutterLocalNotificationsPlugin =
-              FlutterLocalNotificationsPlugin();
-
-          BigPictureStyleInformation? bigPictureStyleInformation;
-
-          if (android?.imageUrl != null) {
-            var response = await Dio().getUri(Uri.parse(android!.imageUrl!));
-            debugPrint(response.data);
-            // bigPictureStyleInformation = BigPictureStyleInformation(
-            //   ByteArrayAndroidBitmap.fromBase64String(response.data),
-            //   largeIcon: ByteArrayAndroidBitmap.fromBase64String(response.data),
-            // );
-
-            bigPictureStyleInformation = BigPictureStyleInformation(
-              FilePathAndroidBitmap(android.imageUrl!),
-              contentTitle: notification.title,
-              summaryText: notification.body,
-            );
-          }
-          await flutterLocalNotificationsPlugin.show(
-              0, //notification.hashCode,
-              notification.title,
-              notification.body,
-              NotificationDetails(
-                  android: android != null
-                      ? AndroidNotificationDetails(channel.id, channel.name,
-                          channelDescription: channel.description,
-                          styleInformation: bigPictureStyleInformation,
-                          // largeIcon: android.imageUrl != null
-                          //     ? DrawableResourceAndroidBitmap('splash')
-                          //     : null,
-                          // sound: RawResourceAndroidNotificationSound('notification'),
-                          icon: android.smallIcon)
-                      : null,
-                  iOS: const DarwinNotificationDetails(
-                    presentAlert: true,
-                    presentSound: true,
-                    presentBadge: true,
-                    //sound: "notification.caf"
-                  )),
-              payload: jsonEncode(message.data));
-        } catch (e) {
-          debugPrint(e.toString());
-        }
-
-        await messaging!.setForegroundNotificationPresentationOptions(
-          alert: false,
-          badge: false,
-          sound: false,
-        );
-      }
     });
+  }
+
+  Future<void> showNotification(RemoteMessage message) async {
+    RemoteNotification? notification = message.notification;
+    AndroidNotification? android = message.notification?.android;
+
+    if (notification != null) {
+      await messaging!.setForegroundNotificationPresentationOptions(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
+
+      try {
+        var flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+        // BigPictureStyleInformation? bigPictureStyleInformation;
+
+        // if (android?.imageUrl != null) {
+        //   var response = await Dio().getUri(Uri.parse(android!.imageUrl!));
+        //   debugPrint(response.data);
+        //   // bigPictureStyleInformation = BigPictureStyleInformation(
+        //   //   ByteArrayAndroidBitmap.fromBase64String(response.data),
+        //   //   largeIcon: ByteArrayAndroidBitmap.fromBase64String(response.data),
+        //   // );
+
+        //   bigPictureStyleInformation = BigPictureStyleInformation(
+        //     FilePathAndroidBitmap(android.imageUrl!),
+        //     contentTitle: notification.title,
+        //     summaryText: notification.body,
+        //   );
+        // }
+
+        await flutterLocalNotificationsPlugin.show(
+            0, //notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+                android: android != null
+                    ? AndroidNotificationDetails(channel.id, channel.name,
+                        channelDescription: channel.description,
+                        // styleInformation: bigPictureStyleInformation,
+                        // largeIcon: android.imageUrl != null
+                        //     ? DrawableResourceAndroidBitmap('splash')
+                        //     : null,
+                        // sound: RawResourceAndroidNotificationSound('notification'),
+                        icon: android.smallIcon)
+                    : null,
+                iOS: const DarwinNotificationDetails(
+                  presentAlert: true,
+                  presentSound: true,
+                  presentBadge: true,
+                  //sound: "notification.caf"
+                )),
+            payload: jsonEncode(message.data));
+      } catch (e) {
+        debugPrint(e.toString());
+      }
+
+      await messaging!.setForegroundNotificationPresentationOptions(
+        alert: false,
+        badge: false,
+        sound: false,
+      );
+    }
   }
 
   Future<bool> requestNotificationPermission() async {
