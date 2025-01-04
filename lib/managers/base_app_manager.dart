@@ -70,7 +70,7 @@ abstract class BaseAppManager<T> extends AsyncNotifier<T> {
     }
   }
 
-  void prepareAppAfterLogin();
+  Future<void> prepareAppAfterLogin();
 
   Locale get currentLocale => Locale(Platform.localeName.substring(0, 2));
 

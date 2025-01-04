@@ -28,7 +28,7 @@ mixin PasswordAuth<U extends BaseModel, S extends BaseAuthState>
     if (authApi is BasePasswordAuthApi) {
       var result = await (authApi as BasePasswordAuthApi)
           .signInWithPassword(username, password);
-      _handleAfterLogin(result);
+      await _handleAfterLogin(result);
       return;
     }
     throw const AppException(
@@ -46,10 +46,10 @@ mixin PasswordAuth<U extends BaseModel, S extends BaseAuthState>
     throw const AppException(message: "authApi should be BasePasswordAuthApi");
   }
 
-  void _handleAfterLogin(Map<String, dynamic> result) {
+  Future<void> _handleAfterLogin(Map<String, dynamic> result) async {
     final user = createUser(result);
 
-    updateUser(user).then((value) => appManager?.prepareAppAfterLogin());
+    await updateUser(user).then((value) => appManager?.prepareAppAfterLogin());
   }
 
   Future<void> resetPassword(String email) {
