@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:k_util/extensions/string.dart';
 
 enum ModelState { active, archived, deleted }
 
@@ -21,7 +22,7 @@ abstract class BaseModel extends ChangeNotifier {
   bool get isDeleted => state == ModelState.deleted;
   bool get isArchived => state == ModelState.archived;
   bool get isActive => state == ModelState.active;
-  
+
   Map<String, dynamic> get additionalParams => _additionalParams ?? {};
 
   List<String> searchIndexes();
@@ -78,17 +79,11 @@ abstract class BaseModel extends ChangeNotifier {
     var searchList = searchIndexes();
     var result = <String>[];
     if (searchList.isNotEmpty) {
-      for (var element in searchList) {
-        final text = element.trim().toLowerCase();
+      for (var text in searchList) {
+        final s = text.createSearchText();
 
-        if (text.isNotEmpty) {
-          text.split(" ").forEach((element) {
-            if (element.isNotEmpty) {
-              for (var i = 3; i <= element.length; i++) {
-                result.add(element.substring(0, i));
-              }
-            }
-          });
+        if (s.isNotEmpty) {
+          result.addAll(s);
         }
       }
     }
