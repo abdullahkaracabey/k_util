@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:k_util/extensions/string.dart';
 
-enum ModelState { active, archived, deleted }
+enum ModelState { active, needConfirmation, archived, deleted }
 
 abstract class BaseModel extends ChangeNotifier {
   static String kId = "id";
@@ -22,6 +22,7 @@ abstract class BaseModel extends ChangeNotifier {
   bool get isDeleted => state == ModelState.deleted;
   bool get isArchived => state == ModelState.archived;
   bool get isActive => state == ModelState.active;
+  bool get needConfirmation => state == ModelState.needConfirmation;
 
   Map<String, dynamic> get additionalParams => _additionalParams ?? {};
 

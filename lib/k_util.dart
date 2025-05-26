@@ -1,6 +1,7 @@
 library k_util;
 
 export 'package:animated_state_widget/animated_state_widget.dart';
+export 'package:another_flushbar/flushbar.dart';
 export 'package:app_settings/app_settings.dart';
 export 'package:app_version_update/app_version_update.dart';
 export 'package:cached_network_image/cached_network_image.dart';

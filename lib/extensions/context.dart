@@ -53,6 +53,11 @@ extension ContextExtensions on BuildContext {
         widthTransformer(dividedBy: dividedBy, reducedBy: reducedByW);
   }
 
+  Size sizeOfWidget(GlobalKey key) {
+    final RenderBox renderBox = findRenderObject() as RenderBox;
+    return renderBox.size;
+  }
+
   /// similar to [MediaQuery.of(context).padding]
   ThemeData get theme => Theme.of(this);
 
@@ -64,6 +69,8 @@ extension ContextExtensions on BuildContext {
 
   /// similar to [MediaQuery.of(context).padding]
   TextTheme get textTheme => Theme.of(this).textTheme;
+
+  ColorScheme get colorScheme => Theme.of(this).colorScheme;
 
   /// similar to [MediaQuery.of(context).padding]
   EdgeInsets get mediaQueryPadding => MediaQuery.of(this).padding;

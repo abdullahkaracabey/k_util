@@ -28,7 +28,7 @@ dependencies:
   connectivity_plus: ^6.1.0
   package_info_plus: ^8.1.1
   store_redirect: ^2.0.3
-  secure_shared_preferences: ^0.0.4
+  flutter_secure_storage: ^9.2.4
   uuid: ^4.5.1
   transparent_image: ^2.0.1
   sliver_tools: ^0.2.12
@@ -52,6 +52,7 @@ dependencies:
   sized_context: ^1.0.0+4
   dio: ^5.7.0
   update_available: ^3.2.0
+  another_flushbar: ^1.12.30
    
 dev_dependencies:
   flutter_test:

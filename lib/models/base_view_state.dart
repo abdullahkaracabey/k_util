@@ -17,6 +17,8 @@ abstract class BaseViewState<W extends ConsumerStatefulWidget> extends ConsumerS
   TextTheme get textTheme => Theme.of(context).textTheme;
   BuildContext? _dialogContext;
 
+  bool get isOnAction => currentState == WidgetState.onAction;
+
   @override
   initState() {
     super.initState();

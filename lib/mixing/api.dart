@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:k_util/models/app_error.dart';
 
@@ -11,6 +13,7 @@ mixin Api {
       Map<String, dynamic>? queryParameters,
       dynamic body}) async {
     try {
+      final _dio = dio;
       var currentUrl = "";
 
       if (url.startsWith("http") || url.startsWith("www")) {
@@ -20,10 +23,10 @@ mixin Api {
       }
 
       if (headers != null) {
-        dio.options.headers.addAll(headers);
+        _dio.options.headers.addAll(headers);
       }
 
-      var response = await dio.post(currentUrl,
+      var response = await _dio.post(currentUrl,
           data: body, queryParameters: queryParameters);
 
       return _handledResponse(response);
@@ -44,12 +47,13 @@ mixin Api {
         currentUrl = '$baseUrl/$url';
       }
 
+      final _dio = dio;
       if (headers != null) {
-        dio.options.headers.addAll(headers);
+        _dio.options.headers.addAll(headers);
       }
 
       var response =
-          await dio.get(currentUrl, queryParameters: queryParameters);
+          await _dio.get(currentUrl, queryParameters: queryParameters);
 
       return _handledResponse(response);
     } catch (e) {
@@ -78,9 +82,18 @@ mixin Api {
     throw AppException.unknownError;
   }
 
-  download({required String url, required String savePath}) async {
+  Future<File?> download(
+      {required String url,
+      required String savePath,
+      Map<String, dynamic>? headers}) async {
     try {
-      await dio.download(url, savePath);
+      final _dio = dio;
+      if (headers != null) {
+        _dio.options.headers.addAll(headers);
+      }
+      await _dio.download(url, savePath);
+
+      return File(savePath);
     } catch (e) {
       _throwError(e);
     }

@@ -40,6 +40,7 @@ abstract class BaseFirebaseNotificationManager {
 
     onNotificationToken = onNotificationTokenUpdate;
     FirebaseMessaging.onBackgroundMessage(onBackgroundMessage);
+
     channel == channel;
 
     var initializationSettingsAndroid = AndroidInitializationSettings(
@@ -63,7 +64,7 @@ abstract class BaseFirebaseNotificationManager {
     await _setupInteractedMessage();
 
     _foregroundMessagingConfigure();
-    await checkMessagingToken();
+    checkMessagingToken();
   }
 
   void _foregroundMessagingConfigure() async {
@@ -193,10 +194,12 @@ abstract class BaseFirebaseNotificationManager {
 
   Future<void> checkMessagingToken() async {
     try {
-      if (kIsWeb) {
-        return;
-      }
+      // if (kIsWeb) {
+      //   return;
+      // }
       String? token = await FirebaseMessaging.instance.getToken();
+
+      debugPrint("Firebase messaging token $token");
 
       if (token != null) {
         onNotificationToken?.call(token);

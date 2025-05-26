@@ -1,45 +1,49 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:k_util/models/base_model.dart';
-import 'package:secure_shared_preferences/secure_shared_preferences.dart';
-import 'package:universal_io/io.dart';
 
 abstract class BasePreferencesManager<T extends BaseModel> {
   final _kUser = "user";
   final _kLanguageCode = "language_code";
   final _kMessagingToken = "messaging_token";
 
-  SecureSharedPref? _pref;
+  FlutterSecureStorage? _pref;
 
   T createUser(Map<String, dynamic> data);
 
-  Future<SecureSharedPref> preferences() async {
-    _pref ??= await SecureSharedPref.getInstance();
+  Future<FlutterSecureStorage> preferences() async {
+    AndroidOptions getAndroidOptions() => const AndroidOptions(
+          encryptedSharedPreferences: true,
+        );
+    _pref ??= FlutterSecureStorage(aOptions: getAndroidOptions());
+
     return _pref!;
   }
 
   Future<void> clear() async {
     var pref = await preferences();
-    await pref.clearAll();
+    await pref.deleteAll();
   }
 
   Future<void> setUser(T user) async {
     try {
       var pref = await preferences();
-      await pref.putMap(_kUser, user.toJson(ignoreDates: true),
-          isEncrypted: false);
+      await pref.write(
+          key: _kUser, value: jsonEncode(user.toJson(ignoreDates: true)));
     } catch (e) {
-      debugPrint(e.toString());
+      // debugPrint(e.toString());
     }
   }
 
   Future<T?> getUser() async {
     var pref = await preferences();
     try {
-      var userAsString =
-          await pref.getMap(_kUser, isEncrypted: false);
+      var userAsString = await pref.read(key: _kUser);
 
       if (userAsString != null && userAsString.isNotEmpty) {
-        var map = userAsString as Map<String, dynamic>;
+        var map = jsonDecode(userAsString) as Map<String, dynamic>;
         return createUser(map);
       }
     } catch (e) {
@@ -50,34 +54,99 @@ abstract class BasePreferencesManager<T extends BaseModel> {
   }
 
   Future<void> setLanguage(String type) async {
-    await _putString(_kLanguageCode, type);
+    await putString(_kLanguageCode, type);
   }
 
   Future<String?> getLanguage() async {
-    return await _getString(_kLanguageCode);
+    return await getString(_kLanguageCode);
   }
 
   Future<void> setMessagingToken(String value) async {
-    await _putString(_kMessagingToken, value);
+    await putString(_kMessagingToken, value);
   }
 
   Future<String?> getMessagingToken() async {
-    return await _getString(_kMessagingToken);
+    return await getString(_kMessagingToken);
   }
 
-  _putString(String name, value) async {
-    _pref ??= await SecureSharedPref.getInstance();
-    await _pref!.putString(name, value);
+  Future<void> putString(String name, value) async {
+    var pref = await preferences();
+    await pref.write(key: name, value: value);
   }
 
-  _getString(name) async {
+  Future<String?> getString(name) async {
     var pref = await preferences();
     try {
-      return await pref.getString(name);
+      return await pref.read(key: name);
     } catch (e) {
       debugPrint(e.toString());
     }
 
     return null;
+  }
+
+  Future<void> putInt(String name, int value) async {
+    var pref = await preferences();
+    await pref.write(key: name, value: value.toString());
+  }
+  Future<int?> getInt(name) async {
+    var pref = await preferences();
+    try {
+      var value = await pref.read(key: name);
+      if (value != null && value.isNotEmpty) {
+        return int.parse(value);
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+
+    return null;
+  }
+
+  Future<void> putBool(String name, bool value) async {
+    var pref = await preferences();
+    await pref.write(key: name, value: value.toString());
+  }
+  Future<bool?> getBool(name) async {
+    var pref = await preferences();
+    try {
+      var value = await pref.read(key: name);
+      if (value != null && value.isNotEmpty) {
+        return value.toLowerCase() == "true";
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+
+    return null;
+  }
+
+  Future<void> putMap(String name, Map<String, dynamic> value) async {
+    var pref = await preferences();
+    await pref.write(key: name, value: jsonEncode(value));
+  }
+
+  Future<Map<String, dynamic>?> getMap(name) async {
+    var pref = await preferences();
+    try {
+      var value = await pref.read(key: name);
+      if (value != null && value.isNotEmpty) {
+        return jsonDecode(value) as Map<String, dynamic>;
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+
+    return null;
+  }
+
+  Future<void> remove(String name) async {
+    var pref = await preferences();
+    await pref.delete(key: name);
+  }
+
+  Future<void> removeAll() async {
+    var pref = await preferences();
+    await pref.deleteAll();
   }
 }

@@ -76,30 +76,37 @@ abstract class BaseAppManager<T extends BaseAppState> extends AsyncNotifier<T> {
       //     errorAndStacktrace.last,
       //   );
       // }).sendPort);
-
-      await firebaseNotificationManager.initializeFireBaseMessaging(
-          androidNotificationIconNativePath: androidNotificationIconNativePath,
-          onNotificationResponse: onNotificationResponse,
-          onNotificationTokenUpdate: onNotificationTokenUpdate,
-          onBackgroundMessage: _firebaseMessagingBackgroundHandler);
     }
+
+    await firebaseNotificationManager.initializeFireBaseMessaging(
+        androidNotificationIconNativePath: androidNotificationIconNativePath,
+        onNotificationResponse: onNotificationResponse,
+        onNotificationTokenUpdate: onNotificationTokenUpdate,
+        onBackgroundMessage: _firebaseMessagingBackgroundHandler);
 
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
-    if(kIsWeb){
+    if (kIsWeb) {
       await update((state) {
-        return state.copyWith(
-            version: packageInfo.version,
-            needsUpdate: false) as T;
+        return state.copyWith(version: packageInfo.version, needsUpdate: false)
+            as T;
       });
       return;
     }
-    final updateAvailability = await AppVersionUpdate.checkForUpdates();
 
-    await update((state) {
-      return state.copyWith(
-          version: packageInfo.version,
-          needsUpdate: updateAvailability.canUpdate??false) as T;
+    AppVersionUpdate.checkForUpdates().then((updateAvailability) {
+      update((state) {
+        return state.copyWith(
+            version: packageInfo.version,
+            needsUpdate: updateAvailability.canUpdate ?? false) as T;
+      });
+    }).catchError((error) {
+      debugPrint("AppVersionUpdate error: $error");
+
+      update((state) {
+        return state.copyWith(version: packageInfo.version, needsUpdate: false)
+            as T;
+      });
     });
   }
 
