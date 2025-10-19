@@ -48,11 +48,26 @@ abstract class BaseModel extends ChangeNotifier {
     if (dateC != null) {
       if (dateC is DateTime) {
         createdAt = dateC;
+      } else if (dateC is String) {
+        createdAt = DateTime.tryParse(dateC);
+      } else if (dateC is Map) {
+        // Handle Firestore Timestamp from web (comes as Map with seconds and nanoseconds)
+        try {
+          final seconds = dateC['seconds'] as int?;
+          final nanoseconds = dateC['nanoseconds'] as int?;
+          if (seconds != null) {
+            createdAt = DateTime.fromMillisecondsSinceEpoch(
+              seconds * 1000 + (nanoseconds ?? 0) ~/ 1000000,
+            );
+          }
+        } catch (e) {
+          debugPrint("Error parsing timestamp map: $e");
+        }
       } else {
         try {
           createdAt = dateC?.toDate();
         } catch (e) {
-          debugPrint("Error: $e");
+          debugPrint("Error calling toDate: $e");
         }
       }
     }
@@ -62,11 +77,26 @@ abstract class BaseModel extends ChangeNotifier {
     if (dateU != null) {
       if (dateU is DateTime) {
         updatedAt = dateU;
+      } else if (dateU is String) {
+        updatedAt = DateTime.tryParse(dateU);
+      } else if (dateU is Map) {
+        // Handle Firestore Timestamp from web (comes as Map with seconds and nanoseconds)
+        try {
+          final seconds = dateU['seconds'] as int?;
+          final nanoseconds = dateU['nanoseconds'] as int?;
+          if (seconds != null) {
+            updatedAt = DateTime.fromMillisecondsSinceEpoch(
+              seconds * 1000 + (nanoseconds ?? 0) ~/ 1000000,
+            );
+          }
+        } catch (e) {
+          debugPrint("Error parsing timestamp map: $e");
+        }
       } else {
         try {
           updatedAt = dateU?.toDate();
         } catch (e) {
-          debugPrint("Error: $e");
+          debugPrint("Error calling toDate: $e");
         }
       }
     }
@@ -111,8 +141,8 @@ abstract class BaseModel extends ChangeNotifier {
     if (id != null) result["id"] = id;
 
     if (!ignoreDates) {
-      result["createdAt"] = createdAt ?? DateTime.now();
-      result["updatedAt"] = DateTime.now();
+      result["createdAt"] = (createdAt ?? DateTime.now()).toIso8601String();
+      result["updatedAt"] = (updatedAt ?? DateTime.now()).toIso8601String();
     } else {
       result.remove("createdAt");
       result.remove("updatedAt");

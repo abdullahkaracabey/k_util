@@ -7,11 +7,13 @@ import 'package:k_util/models/app_error.dart';
 import 'package:k_util/models/enums.dart';
 import 'package:k_util/util/snack.dart';
 
-typedef OnError = void Function(AppException error);
+typedef OnError = Future<void> Function(dynamic rawError,
+    {ErrorShowType showType, bool shouldClearActionState});
 
 enum ErrorShowType { snack, modal }
 
-abstract class BaseViewState<W extends ConsumerStatefulWidget> extends ConsumerState<W> {
+abstract class BaseViewState<W extends ConsumerStatefulWidget>
+    extends ConsumerState<W> {
   WidgetState currentState = WidgetState.init;
   ColorScheme get colorScheme => Theme.of(context).colorScheme;
   TextTheme get textTheme => Theme.of(context).textTheme;

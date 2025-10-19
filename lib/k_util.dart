@@ -32,6 +32,10 @@ export 'package:universal_io/io.dart';
 export 'package:url_launcher/url_launcher.dart';
 export 'package:uuid/uuid.dart';
 
+export 'package:shared_preferences_android/shared_preferences_android.dart';
+export 'package:shared_preferences_foundation/shared_preferences_foundation.dart';
+export 'package:shared_preferences/shared_preferences.dart';
+
 export 'api/apis.dart';
 export 'controllers/controllers.dart';
 export 'extensions/extensions.dart';

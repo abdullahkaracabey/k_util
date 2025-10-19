@@ -34,6 +34,7 @@ class AppException implements Exception {
   static const unAuthorized = AppException(code: AppException.kUnAuthorized);
   static const unPermitted = AppException(code: AppException.kUnPermitted);
   static const notConnected = AppException(code: AppException.kNotConnected);
+  static const notFound = AppException(code: AppException.kNotFound);
   static const loginFailed = AppException(code: AppException.kLoginFailed);
 
   final int? code;

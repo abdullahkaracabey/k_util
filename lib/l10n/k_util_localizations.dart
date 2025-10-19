@@ -8,6 +8,8 @@ import 'package:intl/intl.dart' as intl;
 import 'k_util_localizations_en.dart';
 import 'k_util_localizations_tr.dart';
 
+// ignore_for_file: type=lint
+
 /// Callers can lookup localized strings with an instance of KUtilLocalizations
 /// returned by `KUtilLocalizations.of(context)`.
 ///
@@ -60,7 +62,8 @@ import 'k_util_localizations_tr.dart';
 /// be consistent with the languages listed in the KUtilLocalizations.supportedLocales
 /// property.
 abstract class KUtilLocalizations {
-  KUtilLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  KUtilLocalizations(String locale)
+      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -68,7 +71,8 @@ abstract class KUtilLocalizations {
     return Localizations.of<KUtilLocalizations>(context, KUtilLocalizations);
   }
 
-  static const LocalizationsDelegate<KUtilLocalizations> delegate = _KUtilLocalizationsDelegate();
+  static const LocalizationsDelegate<KUtilLocalizations> delegate =
+      _KUtilLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -80,7 +84,8 @@ abstract class KUtilLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
     delegate,
     GlobalMaterialLocalizations.delegate,
     GlobalCupertinoLocalizations.delegate,
@@ -124,34 +129,36 @@ abstract class KUtilLocalizations {
   String get ok;
 }
 
-class _KUtilLocalizationsDelegate extends LocalizationsDelegate<KUtilLocalizations> {
+class _KUtilLocalizationsDelegate
+    extends LocalizationsDelegate<KUtilLocalizations> {
   const _KUtilLocalizationsDelegate();
 
   @override
   Future<KUtilLocalizations> load(Locale locale) {
-    return SynchronousFuture<KUtilLocalizations>(lookupKUtilLocalizations(locale));
+    return SynchronousFuture<KUtilLocalizations>(
+        lookupKUtilLocalizations(locale));
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['en', 'tr'].contains(locale.languageCode);
+  bool isSupported(Locale locale) =>
+      <String>['en', 'tr'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_KUtilLocalizationsDelegate old) => false;
 }
 
 KUtilLocalizations lookupKUtilLocalizations(Locale locale) {
-
-
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en': return KUtilLocalizationsEn();
-    case 'tr': return KUtilLocalizationsTr();
+    case 'en':
+      return KUtilLocalizationsEn();
+    case 'tr':
+      return KUtilLocalizationsTr();
   }
 
   throw FlutterError(
-    'KUtilLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-    'an issue with the localizations generation tool. Please file an issue '
-    'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.'
-  );
+      'KUtilLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+      'an issue with the localizations generation tool. Please file an issue '
+      'on GitHub with a reproducible sample app and the gen-l10n configuration '
+      'that was used.');
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Snack {
-  static showInfoSnack(BuildContext context, String text,
+  static Future<void> showInfoSnack(BuildContext context, String text,
       {Duration? duration}) {
     var textTheme = Theme.of(context).textTheme;
     SnackBar snackBar = SnackBar(
@@ -13,5 +13,6 @@ class Snack {
         ));
 
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    return Future.value();
   }
 }
