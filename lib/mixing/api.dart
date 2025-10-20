@@ -13,7 +13,6 @@ mixin Api {
       Map<String, dynamic>? queryParameters,
       dynamic body}) async {
     try {
-      final _dio = dio;
       var currentUrl = "";
 
       if (url.startsWith("http") || url.startsWith("www")) {
@@ -22,11 +21,12 @@ mixin Api {
         currentUrl = '$baseUrl/$url';
       }
 
+      final client = dio;
       if (headers != null) {
-        _dio.options.headers.addAll(headers);
+        client.options.headers.addAll(headers);
       }
 
-      var response = await _dio.post(currentUrl,
+      var response = await client.post(currentUrl,
           data: body, queryParameters: queryParameters);
 
       return _handledResponse(response);
@@ -39,21 +39,15 @@ mixin Api {
       {Map<String, dynamic>? headers,
       Map<String, dynamic>? queryParameters}) async {
     try {
-      var currentUrl = "";
+      var currentUrl = url.startsWith('http') || url.startsWith('www')
+          ? url
+          : '$baseUrl/$url';
 
-      if (url.startsWith("http") || url.startsWith("www")) {
-        currentUrl = url;
-      } else {
-        currentUrl = '$baseUrl/$url';
-      }
-
-      final _dio = dio;
-      if (headers != null) {
-        _dio.options.headers.addAll(headers);
-      }
+      final client = dio;
+      if (headers != null) client.options.headers.addAll(headers);
 
       var response =
-          await _dio.get(currentUrl, queryParameters: queryParameters);
+          await client.get(currentUrl, queryParameters: queryParameters);
 
       return _handledResponse(response);
     } catch (e) {
@@ -87,15 +81,16 @@ mixin Api {
       required String savePath,
       Map<String, dynamic>? headers}) async {
     try {
-      final _dio = dio;
+      final client = dio;
       if (headers != null) {
-        _dio.options.headers.addAll(headers);
+        client.options.headers.addAll(headers);
       }
-      await _dio.download(url, savePath);
+      await client.download(url, savePath);
 
       return File(savePath);
     } catch (e) {
       _throwError(e);
+      return null;
     }
   }
 

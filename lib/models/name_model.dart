@@ -4,9 +4,10 @@ class NameModel extends BaseModel {
   static const type = "NameModel";
   String name;
 
-  NameModel.fromJson(Map<String, dynamic> data)
-      : name = data["name"],
-        super.fromJson(data);
+  @override
+  NameModel.fromJson(super.data)
+      : name = data['name'],
+        super.fromJson();
 
   @override
   List<String> searchIndexes() {

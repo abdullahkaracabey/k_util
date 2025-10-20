@@ -4,7 +4,8 @@ import 'package:k_util/models/app_error.dart';
 import 'package:k_util/models/base_model.dart';
 import 'package:k_util/models/base_view_state.dart';
 
-mixin PhoneAuth<T extends BaseModel, S extends BaseAuthState> on BaseAuthManager<T, S> {
+mixin PhoneAuth<T extends BaseModel, S extends BaseAuthState>
+    on BaseAuthManager<T, S> {
   late String phoneCountryCode;
 
   String? _currentPhoneNumber;
@@ -24,12 +25,12 @@ mixin PhoneAuth<T extends BaseModel, S extends BaseAuthState> on BaseAuthManager
     return await callRequest(() => _login(phoneNumber, onError));
   }
 
-  _onCodeSent(p0) {
-    _verificationId = p0;
-    __onCodeSent(p0);
+  void _onCodeSent(String verificationId) {
+    _verificationId = verificationId;
+    __onCodeSent(verificationId);
   }
 
-  _onVerificationCompleted(dynamic params) async {
+  Future<void> _onVerificationCompleted(dynamic params) async {
     if (authApi is BasePhoneAuthApi) {
       var result =
           await (authApi as BasePhoneAuthApi).signInWithCredential(params);

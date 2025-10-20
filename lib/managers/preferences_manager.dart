@@ -74,7 +74,7 @@ abstract class BasePreferencesManager<T extends BaseModel> {
     await pref.write(key: name, value: value);
   }
 
-  Future<String?> getString(name) async {
+  Future<String?> getString(String name) async {
     var pref = await preferences();
     try {
       return await pref.read(key: name);
@@ -89,7 +89,8 @@ abstract class BasePreferencesManager<T extends BaseModel> {
     var pref = await preferences();
     await pref.write(key: name, value: value.toString());
   }
-  Future<int?> getInt(name) async {
+
+  Future<int?> getInt(String name) async {
     var pref = await preferences();
     try {
       var value = await pref.read(key: name);
@@ -107,7 +108,8 @@ abstract class BasePreferencesManager<T extends BaseModel> {
     var pref = await preferences();
     await pref.write(key: name, value: value.toString());
   }
-  Future<bool?> getBool(name) async {
+
+  Future<bool?> getBool(String name) async {
     var pref = await preferences();
     try {
       var value = await pref.read(key: name);
@@ -126,7 +128,7 @@ abstract class BasePreferencesManager<T extends BaseModel> {
     await pref.write(key: name, value: jsonEncode(value));
   }
 
-  Future<Map<String, dynamic>?> getMap(name) async {
+  Future<Map<String, dynamic>?> getMap(String name) async {
     var pref = await preferences();
     try {
       var value = await pref.read(key: name);

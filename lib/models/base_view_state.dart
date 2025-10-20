@@ -74,7 +74,7 @@ abstract class BaseViewState<W extends ConsumerStatefulWidget>
     }
   }
 
-  onUpdate() {
+  void onUpdate() {
     setState(() {});
   }
 
@@ -214,7 +214,7 @@ abstract class BaseViewState<W extends ConsumerStatefulWidget>
     );
   }
 
-  hideDialog() {
+  void hideDialog() {
     if (_dialogContext != null) {
       Navigator.pop(_dialogContext!);
       _dialogContext = null;

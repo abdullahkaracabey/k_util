@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 
 export 'snack.dart';
 
-Future<T?> pushScreen<T>(BuildContext context, Widget screen, {bool rootNavigator = false}) {
-  return Navigator.of(context, rootNavigator: rootNavigator).push<T>(PageRouteBuilder(
+Future<T?> pushScreen<T>(BuildContext context, Widget screen,
+    {bool rootNavigator = false}) {
+  return Navigator.of(context, rootNavigator: rootNavigator)
+      .push<T>(PageRouteBuilder(
     pageBuilder: (
       BuildContext context,
       Animation<double> animation,
@@ -24,7 +26,7 @@ Future<T?> pushScreen<T>(BuildContext context, Widget screen, {bool rootNavigato
   ));
 }
 
-replaceScreen(BuildContext context, Widget screen) {
+void replaceScreen(BuildContext context, Widget screen) {
   Navigator.of(context).pushReplacement(PageRouteBuilder(
     pageBuilder: (
       BuildContext context,
@@ -46,7 +48,7 @@ replaceScreen(BuildContext context, Widget screen) {
   ));
 }
 
-pushScreenRemoveUntil(BuildContext context, Widget screen) {
+void pushScreenRemoveUntil(BuildContext context, Widget screen) {
   Navigator.of(context).pushAndRemoveUntil(
     PageRouteBuilder(
       pageBuilder: (
