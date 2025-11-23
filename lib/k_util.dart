@@ -6,10 +6,7 @@ export 'package:app_settings/app_settings.dart';
 export 'package:app_version_update/app_version_update.dart';
 export 'package:cached_network_image/cached_network_image.dart';
 export 'package:collection/collection.dart';
-export 'package:connectivity_plus_platform_interface/src/enums.dart'
-    show ConnectivityResult;
 export 'package:dio/dio.dart';
-export 'package:dots_indicator/dots_indicator.dart';
 export 'package:enum_to_string/enum_to_string.dart';
 export 'package:firebase_analytics/firebase_analytics.dart';
 export 'package:firebase_core/firebase_core.dart';
@@ -27,14 +24,9 @@ export 'package:package_info_plus/package_info_plus.dart';
 export 'package:path_provider/path_provider.dart';
 export 'package:sized_context/sized_context.dart';
 export 'package:store_redirect/store_redirect.dart';
-export 'package:transparent_image/transparent_image.dart';
 export 'package:universal_io/io.dart';
 export 'package:url_launcher/url_launcher.dart';
 export 'package:uuid/uuid.dart';
-
-export 'package:shared_preferences_android/shared_preferences_android.dart';
-export 'package:shared_preferences_foundation/shared_preferences_foundation.dart';
-export 'package:shared_preferences/shared_preferences.dart';
 
 export 'api/apis.dart';
 export 'controllers/controllers.dart';

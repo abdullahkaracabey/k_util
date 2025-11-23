@@ -3,6 +3,9 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+export 'package:connectivity_plus/connectivity_plus.dart'
+    show ConnectivityResult;
+
 class ConnectionManagerState {
   final ConnectivityResult connectivityState;
 

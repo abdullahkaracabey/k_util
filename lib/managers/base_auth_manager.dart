@@ -28,10 +28,10 @@ abstract class BaseAuthManager<U extends BaseModel, S extends BaseAuthState>
   String? get authToken;
 
   set user(U? u) {
-    updateUser(u);
+    updateUserLocally(u);
   }
 
-  Future<void> updateUser(U? u) async {
+  Future<void> updateUserLocally(U? u) async {
     await update((state) async {
       if (u != null) {
         await preferencesManager.setUser(u);

@@ -49,7 +49,8 @@ mixin PasswordAuth<U extends BaseModel, S extends BaseAuthState>
   Future<void> _handleAfterLogin(Map<String, dynamic> result) async {
     final user = createUser(result);
 
-    await updateUser(user).then((value) => appManager?.prepareAppAfterLogin());
+    await updateUserLocally(user)
+        .then((value) => appManager?.prepareAppAfterLogin());
   }
 
   Future<void> resetPassword(String email) {
