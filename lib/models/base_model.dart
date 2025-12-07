@@ -126,16 +126,53 @@ abstract class BaseModel extends ChangeNotifier {
     return null;
   }
 
+  /// Recursively sanitize values for JSON serialization
+  /// Converts Timestamp and DateTime to ISO8601 strings
+  dynamic _sanitizeForJson(dynamic value) {
+    if (value == null) return null;
+
+    if (value is DateTime) {
+      return value.toIso8601String();
+    }
+
+    // Handle Firebase Timestamp without importing cloud_firestore
+    if (value.runtimeType.toString() == 'Timestamp') {
+      try {
+        return (value.toDate() as DateTime).toIso8601String();
+      } catch (e) {
+        debugPrint("Error converting Timestamp: $e");
+        return null;
+      }
+    }
+
+    if (value is Map) {
+      return value.map((k, v) => MapEntry(k.toString(), _sanitizeForJson(v)));
+    }
+
+    if (value is List) {
+      return value.map((v) => _sanitizeForJson(v)).toList();
+    }
+
+    return value;
+  }
+
   Map<String, dynamic> toJson({bool ignoreDates = false}) {
     final params = _additionalParams ?? {};
 
     params.removeWhere((key, value) => value == null);
     params.removeWhere(
         (key, value) => key == kId || key == kModelState || key == kModelType);
+
+    // Recursively sanitize all values for JSON serialization
+    final sanitizedParams = <String, dynamic>{};
+    for (final entry in params.entries) {
+      sanitizedParams[entry.key] = _sanitizeForJson(entry.value);
+    }
+
     var result = <String, dynamic>{
       kModelState: state?.name ?? ModelState.active.name,
       kModelType: modelType,
-      ...params
+      ...sanitizedParams
     };
 
     if (id != null) result["id"] = id;

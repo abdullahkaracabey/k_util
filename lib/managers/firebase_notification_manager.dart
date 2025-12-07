@@ -32,6 +32,7 @@ abstract class BaseFirebaseNotificationManager {
       {required FireBaseBackgroundHandler onBackgroundMessage,
       required OnNotificationResponse onNotificationResponse,
       required OnNotificationTokenUpdate onNotificationTokenUpdate,
+      OnNotificationResponse? onBackgroundNotificationResponse,
       String? androidNotificationIconNativePath}) async {
     if (_isInitialized) return;
     _isInitialized = true;
@@ -52,7 +53,8 @@ abstract class BaseFirebaseNotificationManager {
     await flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
       onDidReceiveNotificationResponse: onNotificationResponse,
-      onDidReceiveBackgroundNotificationResponse: onNotificationResponse,
+      onDidReceiveBackgroundNotificationResponse:
+          onBackgroundNotificationResponse,
     );
 
     await flutterLocalNotificationsPlugin
