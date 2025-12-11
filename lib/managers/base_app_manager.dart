@@ -5,9 +5,9 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:k_util/managers/base_auth_manager.dart';
-import 'package:k_util/managers/firebase_notification_manager.dart';
-import 'package:k_util/models/app_error.dart';
+import 'package:k_scaffold/managers/base_auth_manager.dart';
+import 'package:k_scaffold/managers/firebase_notification_manager.dart';
+import 'package:k_scaffold/models/app_error.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:universal_io/io.dart';
 

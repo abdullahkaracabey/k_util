@@ -1,6 +1,6 @@
-# k_util
+# k_scaffold
 
-`k_util` is a comprehensive "core" utility and management package designed for Flutter projects. It gathers Riverpod-based state management, Firebase services, authentication infrastructure, and frequently used helper tools under a single roof.
+`k_scaffold` is a comprehensive "core" utility and management package designed for Flutter projects. It gathers Riverpod-based state management, Firebase services, authentication infrastructure, and frequently used helper tools under a single roof.
 
 ## Features
 
@@ -24,9 +24,9 @@ Add this packet to your project as a git dependency or path dependency (until pu
 
 ```yaml
 dependencies:
-  k_util:
+  k_scaffold:
     git:
-      url: https://github.com/abdullahkaracabey/k_util.git
+      url: https://github.com/abdullahkaracabey/k_scaffold.git
       ref: main
 ```
 
@@ -34,8 +34,8 @@ dependencies:
 
 ```yaml
 dependencies:
-  k_util:
-    path: ../path/to/k_util
+  k_scaffold:
+    path: ../path/to/k_scaffold
 ```
 
 ## Usage
@@ -45,7 +45,7 @@ dependencies:
 You can initialize basic services using the `BaseAppManager` structure at the entry point of your application (`main.dart`).
 
 ```dart
-import 'package:k_util/k_util.dart';
+import 'package:k_scaffold/k_scaffold.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

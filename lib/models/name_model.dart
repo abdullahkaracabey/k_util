@@ -1,4 +1,4 @@
-import 'package:k_util/models/base_model.dart';
+import 'package:k_scaffold/models/base_model.dart';
 
 class NameModel extends BaseModel {
   static const type = "NameModel";

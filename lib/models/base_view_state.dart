@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart' hide WidgetState;
 import 'package:flutter_riverpod/flutter_riverpod.dart'
     show ConsumerStatefulWidget, ConsumerState;
-import 'package:k_util/l10n/k_util_localizations.dart';
-import 'package:k_util/managers/base_manager.dart';
-import 'package:k_util/models/app_error.dart';
-import 'package:k_util/models/enums.dart';
-import 'package:k_util/util/snack.dart';
+import 'package:k_scaffold/l10n/k_util_localizations.dart';
+import 'package:k_scaffold/managers/base_manager.dart';
+import 'package:k_scaffold/models/app_error.dart';
+import 'package:k_scaffold/models/enums.dart';
+import 'package:k_scaffold/util/snack.dart';
 
 typedef OnError = Future<void> Function(dynamic rawError,
     {ErrorShowType showType, bool shouldClearActionState});

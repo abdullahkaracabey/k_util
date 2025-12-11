@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:k_util/k_util.dart';
+import 'package:k_scaffold/k_util.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

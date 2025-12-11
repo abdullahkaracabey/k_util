@@ -1,4 +1,4 @@
-library k_util;
+library;
 
 export 'package:another_flushbar/flushbar.dart';
 export 'package:app_settings/app_settings.dart';

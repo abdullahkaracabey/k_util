@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:k_util/managers/base_auth_manager.dart';
-import 'package:k_util/models/app_error.dart';
+import 'package:k_scaffold/managers/base_auth_manager.dart';
+import 'package:k_scaffold/models/app_error.dart';
 
 typedef RequestCall<T> = Future<T> Function();
 

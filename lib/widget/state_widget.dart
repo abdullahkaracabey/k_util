@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart' hide WidgetState;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:k_util/controllers/button_state_controller.dart';
-import 'package:k_util/models/enums.dart';
+import 'package:k_scaffold/controllers/button_state_controller.dart';
+import 'package:k_scaffold/models/enums.dart';
 
 class StateWidget extends ConsumerStatefulWidget {
   final Widget child;

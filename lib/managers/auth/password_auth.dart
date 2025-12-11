@@ -1,7 +1,7 @@
-import 'package:k_util/api/password_auth_api.dart';
-import 'package:k_util/managers/base_auth_manager.dart';
-import 'package:k_util/models/app_error.dart';
-import 'package:k_util/models/base_model.dart';
+import 'package:k_scaffold/api/password_auth_api.dart';
+import 'package:k_scaffold/managers/base_auth_manager.dart';
+import 'package:k_scaffold/models/app_error.dart';
+import 'package:k_scaffold/models/base_model.dart';
 
 mixin PasswordAuth<U extends BaseModel, S extends BaseAuthState>
     on BaseAuthManager<U, S> {

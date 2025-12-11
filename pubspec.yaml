@@ -1,9 +1,9 @@
-name: k_util
+name: k_scaffold
 description: A comprehensive Flutter utility package containing helper methods, extensions, and common widgets for faster development.
 version: 1.0.0
-homepage: https://github.com/abdullahkaracabey/k_util
-repository: https://github.com/abdullahkaracabey/k_util
-issue_tracker: https://github.com/abdullahkaracabey/k_util/issues
+homepage: https://github.com/abdullahkaracabey/k_scaffold
+repository: https://github.com/abdullahkaracabey/k_scaffold
+issue_tracker: https://github.com/abdullahkaracabey/k_scaffold/issues
 
 environment:
   sdk: '>=3.2.0 <4.0.0'

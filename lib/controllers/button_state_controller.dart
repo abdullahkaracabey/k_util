@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:k_util/models/enums.dart';
+import 'package:k_scaffold/models/enums.dart';
 
 class WidgetStateController extends ChangeNotifier {
   WidgetState state = WidgetState.init;

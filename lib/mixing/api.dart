@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:k_util/models/app_error.dart';
+import 'package:k_scaffold/models/app_error.dart';
 
 mixin Api {
   String get baseUrl;

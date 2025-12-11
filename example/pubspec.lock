@@ -493,13 +493,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.20.2"
-  k_util:
+  k_scaffold:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "0.0.1"
+    version: "1.0.0"
   leak_tracker:
     dependency: transitive
     description:

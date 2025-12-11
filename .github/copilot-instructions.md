@@ -1,4 +1,4 @@
-# K_Util Flutter Package Instructions
+# K_Scaffold Flutter Package Instructions
 
 ## Architecture Overview
 

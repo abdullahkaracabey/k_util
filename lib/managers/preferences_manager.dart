@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:k_util/models/base_model.dart';
+import 'package:k_scaffold/models/base_model.dart';
 
 abstract class BasePreferencesManager<T extends BaseModel> {
   final _kUser = "user";

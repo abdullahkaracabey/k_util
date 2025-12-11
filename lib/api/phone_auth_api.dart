@@ -1,5 +1,4 @@
-import '../k_util.dart';
-
+import '../k_scaffold.dart';
 
 abstract class BasePhoneAuthApi {
   Future<void> sendCode(String phone,

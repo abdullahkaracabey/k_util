@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:k_util/extensions/string.dart';
+import 'package:k_scaffold/extensions/string.dart';
 
 enum ModelState { active, needConfirmation, archived, deleted }
 

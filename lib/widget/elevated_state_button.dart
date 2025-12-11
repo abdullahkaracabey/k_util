@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:k_util/controllers/button_state_controller.dart';
-import 'package:k_util/widget/state_widget.dart';
+import 'package:k_scaffold/controllers/button_state_controller.dart';
+import 'package:k_scaffold/widget/state_widget.dart';
 
 class ElevatedStateButton extends ConsumerStatefulWidget {
   final Widget child;

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:k_util/api/base_auth_api.dart';
-import 'package:k_util/managers/base_app_manager.dart';
-import 'package:k_util/managers/base_manager.dart';
-import 'package:k_util/managers/preferences_manager.dart';
-import 'package:k_util/models/models.dart';
+import 'package:k_scaffold/api/base_auth_api.dart';
+import 'package:k_scaffold/managers/base_app_manager.dart';
+import 'package:k_scaffold/managers/base_manager.dart';
+import 'package:k_scaffold/managers/preferences_manager.dart';
+import 'package:k_scaffold/models/models.dart';
 
 abstract class BaseAuthState<U extends BaseModel> {
   final U? user;
