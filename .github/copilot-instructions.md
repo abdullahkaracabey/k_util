@@ -52,7 +52,7 @@ flutter gen-l10n
 - **State Management**: flutter_riverpod (primary), get_it (service location)
 - **Navigation**: go_router with custom extensions in `lib/extensions/go_router.dart`
 - **Firebase**: Full suite (core, messaging, analytics, crashlytics)
-- **UI**: Custom state widgets, animated_state_widget dependency
+- **UI**: Custom state widgets
 
 ### Adding New Features
 1. Create base classes in appropriate `lib/*/base_*.dart` files
@@ -67,6 +67,5 @@ flutter gen-l10n
 - Use `KUtilLocalizations.of(context)` for localized strings
 
 ## External Dependencies
-- Custom `animated_state_widget` dependency via local path
 - Firebase configuration required for notification/analytics managers
 - Secure storage for auth token persistence

@@ -1,6 +1,5 @@
 library k_util;
 
-export 'package:animated_state_widget/animated_state_widget.dart';
 export 'package:another_flushbar/flushbar.dart';
 export 'package:app_settings/app_settings.dart';
 export 'package:app_version_update/app_version_update.dart';
@@ -16,7 +15,6 @@ export 'package:flutter_local_notifications/flutter_local_notifications.dart';
 export 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 export 'package:flutter_riverpod/flutter_riverpod.dart';
 export 'package:flutter_svg/flutter_svg.dart';
-export 'package:get_it/get_it.dart';
 export 'package:go_router/go_router.dart';
 export 'package:http_parser/http_parser.dart';
 export 'package:intl/intl.dart';
