@@ -21,6 +21,7 @@ export 'package:http_parser/http_parser.dart';
 export 'package:intl/intl.dart';
 export 'package:package_info_plus/package_info_plus.dart';
 export 'package:path_provider/path_provider.dart';
+export 'package:riverpod_annotation/riverpod_annotation.dart';
 export 'package:sized_context/sized_context.dart';
 export 'package:store_redirect/store_redirect.dart';
 export 'package:universal_io/io.dart';
