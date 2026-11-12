@@ -29,7 +29,7 @@ export 'package:uuid/uuid.dart';
 export 'api/apis.dart';
 export 'controllers/controllers.dart';
 export 'extensions/extensions.dart';
-export 'l10n/k_util_localizations.dart';
+export 'l10n/k_scaffold_localizations.dart';
 export 'managers/managers.dart';
 export 'mixing/api.dart';
 export 'models/models.dart';

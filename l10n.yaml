@@ -1,5 +1,5 @@
 arb-dir: lib/l10n
 template-arb-file: app_en.arb
-output-class: KUtilLocalizations
-output-localization-file: k_util_localizations.dart
+output-class: KScaffoldLocalizations
+output-localization-file: k_scaffold_localizations.dart
 output-dir: lib/l10n

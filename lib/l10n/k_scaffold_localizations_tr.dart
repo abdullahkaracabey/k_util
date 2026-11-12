@@ -1,12 +1,12 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-import 'k_util_localizations.dart';
+import 'k_scaffold_localizations.dart';
 
 // ignore_for_file: type=lint
 
 /// The translations for Turkish (`tr`).
-class KUtilLocalizationsTr extends KUtilLocalizations {
-  KUtilLocalizationsTr([String locale = 'tr']) : super(locale);
+class KScaffoldLocalizationsTr extends KScaffoldLocalizations {
+  KScaffoldLocalizationsTr([String locale = 'tr']) : super(locale);
 
   @override
   String get error => 'Hata';

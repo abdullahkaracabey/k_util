@@ -1,12 +1,12 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-import 'k_util_localizations.dart';
+import 'k_scaffold_localizations.dart';
 
 // ignore_for_file: type=lint
 
 /// The translations for English (`en`).
-class KUtilLocalizationsEn extends KUtilLocalizations {
-  KUtilLocalizationsEn([String locale = 'en']) : super(locale);
+class KScaffoldLocalizationsEn extends KScaffoldLocalizations {
+  KScaffoldLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
   String get error => 'Error';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart' hide WidgetState;
 import 'package:flutter_riverpod/flutter_riverpod.dart'
     show ConsumerStatefulWidget, ConsumerState;
-import 'package:k_scaffold/l10n/k_util_localizations.dart';
+import 'package:k_scaffold/l10n/k_scaffold_localizations.dart';
 import 'package:k_scaffold/managers/base_manager.dart';
 import 'package:k_scaffold/models/app_error.dart';
 import 'package:k_scaffold/models/enums.dart';
@@ -113,7 +113,7 @@ abstract class BaseViewState<W extends ConsumerStatefulWidget>
       shouldClearActionState = true}) async {
     currentState = WidgetState.init;
     if (!mounted) return;
-    final localization = KUtilLocalizations.of(context)!;
+    final localization = KScaffoldLocalizations.of(context)!;
 
     AppException error;
 
@@ -168,7 +168,7 @@ abstract class BaseViewState<W extends ConsumerStatefulWidget>
   }
 
   Future<void> showInfoDialog(String title, String message) {
-    final localization = KUtilLocalizations.of(context)!;
+    final localization = KScaffoldLocalizations.of(context)!;
     return showDialog(
         context: context,
         builder: (context) => AlertDialog(
