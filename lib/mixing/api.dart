@@ -11,7 +11,8 @@ mixin Api {
   Future<dynamic> postRequest(String url,
       {Map<String, dynamic>? headers,
       Map<String, dynamic>? queryParameters,
-      dynamic body}) async {
+      dynamic body,
+      CancelToken? cancelToken}) async {
     try {
       var currentUrl = "";
 
@@ -27,7 +28,9 @@ mixin Api {
       }
 
       var response = await client.post(currentUrl,
-          data: body, queryParameters: queryParameters);
+          data: body,
+          queryParameters: queryParameters,
+          cancelToken: cancelToken);
 
       return _handledResponse(response);
     } catch (e) {
