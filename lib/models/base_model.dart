@@ -132,13 +132,13 @@ abstract class BaseModel extends ChangeNotifier {
     if (value == null) return null;
 
     if (value is DateTime) {
-      return value.toIso8601String();
+      return value;
     }
 
     // Handle Firebase Timestamp without importing cloud_firestore
     if (value.runtimeType.toString() == 'Timestamp') {
       try {
-        return (value.toDate() as DateTime).toIso8601String();
+        return (value.toDate() as DateTime);
       } catch (e) {
         debugPrint("Error converting Timestamp: $e");
         return null;
@@ -178,8 +178,8 @@ abstract class BaseModel extends ChangeNotifier {
     if (id != null) result["id"] = id;
 
     if (!ignoreDates) {
-      result["createdAt"] = (createdAt ?? DateTime.now()).toIso8601String();
-      result["updatedAt"] = (updatedAt ?? DateTime.now()).toIso8601String();
+      result["createdAt"] = (createdAt ?? DateTime.now());
+      result["updatedAt"] = (updatedAt ?? DateTime.now());
     } else {
       result.remove("createdAt");
       result.remove("updatedAt");
