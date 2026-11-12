@@ -177,7 +177,7 @@ abstract class BaseAppManager<T extends BaseAppState> extends AsyncNotifier<T> {
     });
   }
 
-  Future<void> prepareAppAfterLogin();
+  Future<void> prepareAppAfterLogin({bool isSilentLogin = false});
 
   Locale get currentLocale => Locale(Platform.localeName.substring(0, 2));
 
