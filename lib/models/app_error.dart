@@ -46,4 +46,8 @@ class AppException implements Exception {
   String toString() {
     return "AppException Code: $code, message: $message";
   }
+
+  static void throwIf(bool condition, Object error) {
+    if (condition) throw error;
+  }
 }
