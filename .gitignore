@@ -31,3 +31,6 @@ migrate_working_dir/
 **/generated_plugin_registrant.dart
 .packages
 build/
+
+# Yerel notlar, analizler ve veri dökümleri (repoya girmez)
+_local/
