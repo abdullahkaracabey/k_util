@@ -35,6 +35,7 @@ export 'l10n/k_scaffold_localizations.dart';
 export 'managers/managers.dart';
 export 'mixing/api.dart';
 export 'models/models.dart';
+export 'screens/screens.dart';
 export 'services/services.dart';
 export 'util/util.dart';
 export 'widget/widgets.dart';

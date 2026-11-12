@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:k_scaffold/k_util.dart';
+import 'package:k_scaffold/k_scaffold.dart';
+import 'package:k_scaffold/screens/directory_explorer_screen.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,7 +30,7 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('k_util Example'),
+        title: const Text('k_scaffold Example'),
       ),
       body: Center(
         child: Column(
@@ -46,7 +48,20 @@ class MyHomePage extends StatelessWidget {
             const SizedBox(height: 20),
             Text(
               'Today: ${DateTime.now().formatDate()}',
-            )
+            ),
+            const SizedBox(height: 40),
+            ElevatedButton.icon(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const DirectoryExplorerScreen(),
+                  ),
+                );
+              },
+              icon: const Icon(Icons.folder_open),
+              label: const Text('Directory Explorer'),
+            ),
           ],
         ),
       ),
