@@ -10,6 +10,7 @@ export 'package:enum_to_string/enum_to_string.dart';
 export 'package:firebase_analytics/firebase_analytics.dart';
 export 'package:firebase_core/firebase_core.dart';
 export 'package:firebase_messaging/firebase_messaging.dart';
+export 'package:flutter_app_badger/flutter_app_badger.dart';
 export 'package:flutter_dotenv/flutter_dotenv.dart';
 export 'package:flutter_local_notifications/flutter_local_notifications.dart';
 export 'package:flutter_multi_formatter/flutter_multi_formatter.dart';

@@ -2,6 +2,7 @@ import 'dart:convert' show jsonEncode;
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 typedef OnNotificationResponse = void Function(NotificationResponse)?;
@@ -185,12 +186,48 @@ abstract class BaseFirebaseNotificationManager {
     // If the message also contains a data property with a "type" of "chat",
     // navigate to a chat screen
     if (initialMessage != null) {
+      // Clear badge when app opens from notification
+      clearBadge();
       onRemoteMessage(initialMessage);
     }
 
     // Also handle any interaction when the app is in the background via a
     // Stream listener
-    FirebaseMessaging.onMessageOpenedApp.listen(onRemoteMessage);
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      // Clear badge when user taps on notification
+      clearBadge();
+      onRemoteMessage(message);
+    });
+  }
+
+  /// Clears the app icon badge count
+  Future<void> clearBadge() async {
+    try {
+      final isSupported = await FlutterAppBadger.isAppBadgeSupported();
+      if (isSupported) {
+        await FlutterAppBadger.removeBadge();
+        debugPrint('Badge cleared successfully');
+      }
+    } catch (e) {
+      debugPrint('Error clearing badge: $e');
+    }
+  }
+
+  /// Sets the app icon badge count to a specific value
+  Future<void> setBadgeCount(int count) async {
+    try {
+      final isSupported = await FlutterAppBadger.isAppBadgeSupported();
+      if (isSupported) {
+        if (count <= 0) {
+          await FlutterAppBadger.removeBadge();
+        } else {
+          await FlutterAppBadger.updateBadgeCount(count);
+        }
+        debugPrint('Badge count set to $count');
+      }
+    } catch (e) {
+      debugPrint('Error setting badge count: $e');
+    }
   }
 
   Future<void> checkMessagingToken() async {
